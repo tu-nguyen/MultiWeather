@@ -8,10 +8,18 @@
     android:stretchColumns="4"
     tools:context="edu.umb.multiweather.MainActivity">
 
+    <fragment
+        android:id="@+id/place_autocomplete_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+        />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="" />
+        android:text="TextView" />
+
+
 </LinearLayout>

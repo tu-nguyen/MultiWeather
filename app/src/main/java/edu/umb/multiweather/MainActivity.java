@@ -1,25 +1,25 @@
 package edu.umb.multiweather;
 
-
-import android.app.ProgressDialog;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
+
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 
 import java.net.MalformedURLException;
 import java.util.concurrent.ExecutionException;
 
-import Utils.Utils;
 import data.GPSTracker;
-import data.JSONParser;
 import data.HTTPClient;
-import model.Place;
+import data.JSONParser;
 import model.Weather;
+import model.uPlace;
 
 public class MainActivity extends AppCompatActivity {
     float lat;
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView textView;
 
-    Place place = new Place();
+    uPlace uPlace = new uPlace();
     Weather weather[] = new Weather[4];
 
     @Override
@@ -48,13 +48,13 @@ public class MainActivity extends AppCompatActivity {
         textView = (TextView) findViewById(R.id.textView);
 
 /*
-        place.setCity("Boston");
-        place.setState("Massachusetts");
-        place.setCountry("USA");
-        place.setStateSymbol("MA");
-        place.setLat((float) 42.29329301);
-        place.setLon((float) -71.06115946);
-        place.setCode(String.valueOf(348735));
+        uPlace.setCity("Boston");
+        uPlace.setState("Massachusetts");
+        uPlace.setCountry("USA");
+        uPlace.setStateSymbol("MA");
+        uPlace.setLat((float) 42.29329301);
+        uPlace.setLon((float) -71.06115946);
+        uPlace.setCode(String.valueOf(348735));
 */
 
         try {
@@ -66,14 +66,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         try {
-            renderWeatherData(place);
+            renderWeatherData(uPlace);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
+        textView.setText("curr Lat: " + uPlace.getLat() + "\n");
+        textView.append("curr Lon: " + uPlace.getLon() + "\n");
+        textView.append("curr City: " + uPlace.getCity());
 
+
+
+/*
         textView.append(weather[0].currentCondition.getTemperature() + "\n");
         textView.append(weather[0].currentCondition.getWindSpeed() + "\n");
         textView.append("\n\n");
@@ -89,6 +95,38 @@ public class MainActivity extends AppCompatActivity {
         textView.append(weather[3].currentCondition.getTemperature() + "\n");
         textView.append(weather[3].currentCondition.getWindSpeed() + "\n");
         textView.append("\n\n");
+*/
+        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                // TODO: Get info about the selected uPlace.
+                Log.i("test", "uPlace: " + place.getName());
+                uPlace.setCity((String) place.getName());
+                uPlace.setLat((float) place.getLatLng().latitude);
+                uPlace.setLon((float) place.getLatLng().longitude);
+
+                try {
+                    getLocationData(lat, lon);
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                textView.append("\n");
+                textView.append("new Lat: " + uPlace.getLat() + "\n");
+                textView.append("new Lon: " + uPlace.getLon() + "\n");
+                textView.append("new City: " + uPlace.getCity());
+            }
+            @Override
+            public void onError(Status status) {
+                // TODO: Handle the error.
+                Log.i("test", "An error occurred: " + status);
+            }
+        });
 
     }
 
@@ -97,9 +135,9 @@ public class MainActivity extends AppCompatActivity {
         locationTask.execute(String.valueOf(lat), String.valueOf(lon)).get();
     }
 
-    private class LocationTask extends AsyncTask<String, Void, Place> {
+    private class LocationTask extends AsyncTask<String, Void, uPlace> {
         @Override
-        protected Place doInBackground(String... strings) {
+        protected uPlace doInBackground(String... strings) {
 
             String LocationData = null;
             try {
@@ -108,26 +146,26 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            place = JSONParser.getLocation(LocationData);
-            return place;
+            uPlace = JSONParser.getLocation(LocationData);
+            return uPlace;
         }
 
         @Override
-        protected void onPostExecute(Place place) {
-            super.onPostExecute(place);
+        protected void onPostExecute(uPlace uPlace) {
+            super.onPostExecute(uPlace);
         }
     }
 
-    public void renderWeatherData (Place place) throws ExecutionException, InterruptedException {
+    public void renderWeatherData (uPlace uPlace) throws ExecutionException, InterruptedException {
         WeatherTask weatherTask = new WeatherTask();
-        weatherTask.execute(place).get();
+        weatherTask.execute(uPlace).get();
     }
 
-    private class WeatherTask extends AsyncTask<Place, Void, Weather[]> {
+    private class WeatherTask extends AsyncTask<uPlace, Void, Weather[]> {
 
         @Override
-        protected Weather[] doInBackground(Place... place) {
-            Place o = place[0];
+        protected Weather[] doInBackground(uPlace... uPlace) {
+            uPlace o = uPlace[0];
 
             String accuString = o.getCode();
             String darkskyString = o.getLat() + "," + o.getLon();

@@ -1,7 +1,5 @@
 package data;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,28 +8,28 @@ import java.util.ArrayList;
 
 import model.CurrentCondition;
 import model.Hourly;
-import model.Place;
+import model.uPlace;
 import model.Weather;
 
 public class JSONParser {
-    public static Place getLocation (String data) {
-        Place place = new Place();
+    public static uPlace getLocation (String data) {
+        uPlace uPlace = new uPlace();
 
         try {
             JSONObject locObject  = new JSONObject(data);
             JSONObject geoObj = getObject("GeoPosition", locObject);
             JSONObject countryObj = getObject("Country", locObject);
             JSONObject stateObj = getObject("AdministrativeArea", locObject);
-            place.setLat(getFloat("Latitude", geoObj));
-            place.setLon(getFloat("Longitude", geoObj));
-            place.setCountry(getString("EnglishName", countryObj));
-            place.setState(getString("EnglishName", stateObj));
-            place.setStateSymbol(getString("ID", stateObj));
-            place.setCity(getString("EnglishName", locObject));
-            place.setZip(getString("PrimaryPostalCode", locObject));
-            place.setCode(getString("Key", locObject));
+            uPlace.setLat(getFloat("Latitude", geoObj));
+            uPlace.setLon(getFloat("Longitude", geoObj));
+            uPlace.setCountry(getString("EnglishName", countryObj));
+            uPlace.setState(getString("EnglishName", stateObj));
+            uPlace.setStateSymbol(getString("ID", stateObj));
+            uPlace.setCity(getString("EnglishName", locObject));
+            uPlace.setZip(getString("PrimaryPostalCode", locObject));
+            uPlace.setCode(getString("Key", locObject));
 
-            return place;
+            return uPlace;
         } catch (JSONException e) {
             e.printStackTrace();
         }

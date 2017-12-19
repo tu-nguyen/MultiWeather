@@ -4,7 +4,7 @@ package model;
  * Created by valcrune on 12/15/17.
  */
 
-public class Place {
+public class uPlace {
     private float lon;
     private float lat;
     private String country;

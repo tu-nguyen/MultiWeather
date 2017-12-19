@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 
 public class Weather {
-    //public Place place;
+    //public uPlace place;
     public CurrentCondition currentCondition = new CurrentCondition();
 
     //public Time time = new Time();
