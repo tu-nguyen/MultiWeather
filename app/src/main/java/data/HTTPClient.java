@@ -20,12 +20,12 @@ public class HTTPClient {
     }
 
     public String getAccuWeatherCurrentData(String locationCode) throws MalformedURLException {
-        Log.v("QQQQQQQQQQQQQQQQQQQQQQQQQ::: ", Utils.ACCU_BASE_URL_CURR + locationCode + Utils.ACCU_API2 + "&details=true");
-        return getData(new URL(Utils.ACCU_BASE_URL_CURR + locationCode + Utils.ACCU_API2 + "&details=true"));
+        Log.v("QQQQQQQQQQQQQQQQQQQQQQQQQ::: ", Utils.ACCU_BASE_URL_CURR + locationCode + Utils.ACCU_API + "&details=true");
+        return getData(new URL(Utils.ACCU_BASE_URL_CURR + locationCode + Utils.ACCU_API + "&details=true"));
     }
 
     public String getAccuWeatherHourly12Data(String locationCode) throws MalformedURLException {
-        return getData(new URL(Utils.ACCU_BASE_URL12 + locationCode + Utils.ACCU_API2 + "&details=true"));
+        return getData(new URL(Utils.ACCU_BASE_URL12 + locationCode + Utils.ACCU_API + "&details=true"));
     }
 
     public String getDarkSkyWeatherData(String place) throws MalformedURLException {
