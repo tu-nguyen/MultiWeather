@@ -3,9 +3,9 @@ package edu.umb.multiweather;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
@@ -21,14 +21,9 @@ import data.JSONParser;
 import model.Weather;
 import model.uPlace;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AggregatedFragment.OnFragmentInteractionListener, SplitFragment.OnFragmentInteractionListener {
     float lat;
     float lon;
-
-    boolean locDone = false;
-    boolean weatherDone = false;
-
-    private TextView textView;
 
     uPlace uPlace = new uPlace();
     Weather weather[] = new Weather[4];
@@ -44,19 +39,7 @@ public class MainActivity extends AppCompatActivity {
             lat = (float) location.getLatitude();
             lon = (float) location.getLongitude();
         }
-
-        textView = (TextView) findViewById(R.id.textView);
-
 /*
-        uPlace.setCity("Boston");
-        uPlace.setState("Massachusetts");
-        uPlace.setCountry("USA");
-        uPlace.setStateSymbol("MA");
-        uPlace.setLat((float) 42.29329301);
-        uPlace.setLon((float) -71.06115946);
-        uPlace.setCode(String.valueOf(348735));
-*/
-
         try {
             getLocationData(lat, lon);
         } catch (ExecutionException e) {
@@ -72,30 +55,8 @@ public class MainActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        */
 
-        textView.setText("curr Lat: " + uPlace.getLat() + "\n");
-        textView.append("curr Lon: " + uPlace.getLon() + "\n");
-        textView.append("curr City: " + uPlace.getCity());
-
-
-
-/*
-        textView.append(weather[0].currentCondition.getTemperature() + "\n");
-        textView.append(weather[0].currentCondition.getWindSpeed() + "\n");
-        textView.append("\n\n");
-
-        textView.append(weather[1].currentCondition.getTemperature() + "\n");
-        textView.append(weather[1].currentCondition.getWindSpeed() + "\n");
-        textView.append("\n\n");
-
-        textView.append(weather[2].currentCondition.getTemperature() + "\n");
-        textView.append(weather[2].currentCondition.getWindSpeed() + "\n");
-        textView.append("\n\n");
-
-        textView.append(weather[3].currentCondition.getTemperature() + "\n");
-        textView.append(weather[3].currentCondition.getWindSpeed() + "\n");
-        textView.append("\n\n");
-*/
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
@@ -108,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 uPlace.setLat((float) place.getLatLng().latitude);
                 uPlace.setLon((float) place.getLatLng().longitude);
 
+                /*
                 try {
                     getLocationData(lat, lon);
                 } catch (ExecutionException e) {
@@ -115,11 +77,8 @@ public class MainActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                */
 
-                textView.append("\n");
-                textView.append("new Lat: " + uPlace.getLat() + "\n");
-                textView.append("new Lon: " + uPlace.getLon() + "\n");
-                textView.append("new City: " + uPlace.getCity());
             }
             @Override
             public void onError(Status status) {
@@ -127,6 +86,19 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("test", "An error occurred: " + status);
             }
         });
+
+        // Begin the transaction
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        // Replace the contents of the container with the new fragment
+        ft.replace(R.id.fragment, new AggregatedFragment());
+        // or ft.add(R.id.your_placeholder, new FooFragment());
+        // Complete the changes added above
+        ft.commit();
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Weather[] weather) {
 
     }
 
