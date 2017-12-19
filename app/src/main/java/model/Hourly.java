@@ -6,9 +6,9 @@ package model;
 
 public class Hourly {
     private int time;
-    private float temperature;
-    private float percipitation;
-    private float wind;
+    private double temperature;
+    private double percipitation;
+    private double wind;
 
     public int getTime() {
         return time;
@@ -18,27 +18,27 @@ public class Hourly {
         this.time = time;
     }
 
-    public float getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(float temperature) {
+    public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
 
-    public float getPercipitation() {
+    public double getPercipitation() {
         return percipitation;
     }
 
-    public void setPercipitation(float percipitation) {
+    public void setPercipitation(double percipitation) {
         this.percipitation = percipitation;
     }
 
-    public float getWind() {
+    public double getWind() {
         return wind;
     }
 
-    public void setWind(float wind) {
+    public void setWind(double wind) {
         this.wind = wind;
     }
 }

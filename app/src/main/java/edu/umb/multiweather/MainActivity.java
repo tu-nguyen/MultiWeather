@@ -1,6 +1,7 @@
 package edu.umb.multiweather;
 
 
+import android.app.ProgressDialog;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import java.net.MalformedURLException;
+import java.util.concurrent.ExecutionException;
 
 import Utils.Utils;
 import data.GPSTracker;
@@ -20,18 +22,11 @@ import model.Place;
 import model.Weather;
 
 public class MainActivity extends AppCompatActivity {
-    static final int REQUEST_LOCATION = 1;
-    private LocationManager locationManager;
-    private LocationListener locationListener;
-    private String locationProvider = LocationManager.GPS_PROVIDER;
-
-    private double time;
-    private double temp;
-    private double chanceOfRain;
-    private double windSpeed;
-
     float lat;
     float lon;
+
+    boolean locDone = false;
+    boolean weatherDone = false;
 
     private TextView textView;
 
@@ -52,8 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         textView = (TextView) findViewById(R.id.textView);
 
-        //getLocationData(lat, lon);
-
+/*
         place.setCity("Boston");
         place.setState("Massachusetts");
         place.setCountry("USA");
@@ -61,20 +55,52 @@ public class MainActivity extends AppCompatActivity {
         place.setLat((float) 42.29329301);
         place.setLon((float) -71.06115946);
         place.setCode(String.valueOf(348735));
+*/
+
+        try {
+            getLocationData(lat, lon);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            renderWeatherData(place);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
 
-        renderWeatherData(place);
+        textView.append(weather[0].currentCondition.getTemperature() + "\n");
+        textView.append(weather[0].currentCondition.getWindSpeed() + "\n");
+        textView.append("\n\n");
+
+        textView.append(weather[1].currentCondition.getTemperature() + "\n");
+        textView.append(weather[1].currentCondition.getWindSpeed() + "\n");
+        textView.append("\n\n");
+
+        textView.append(weather[2].currentCondition.getTemperature() + "\n");
+        textView.append(weather[2].currentCondition.getWindSpeed() + "\n");
+        textView.append("\n\n");
+
+        textView.append(weather[3].currentCondition.getTemperature() + "\n");
+        textView.append(weather[3].currentCondition.getWindSpeed() + "\n");
+        textView.append("\n\n");
 
     }
 
-    public void getLocationData (double lat, double lon) {
+    public void getLocationData (double lat, double lon) throws ExecutionException, InterruptedException {
         LocationTask locationTask = new LocationTask();
-        locationTask.execute(String.valueOf(lat), String.valueOf(lon));
+        locationTask.execute(String.valueOf(lat), String.valueOf(lon)).get();
     }
 
     private class LocationTask extends AsyncTask<String, Void, Place> {
         @Override
         protected Place doInBackground(String... strings) {
+
             String LocationData = null;
             try {
                 LocationData = ((new HTTPClient()).getLocationData(lat, lon));
@@ -92,9 +118,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void renderWeatherData (Place place) {
+    public void renderWeatherData (Place place) throws ExecutionException, InterruptedException {
         WeatherTask weatherTask = new WeatherTask();
-        weatherTask.execute(place);
+        weatherTask.execute(place).get();
     }
 
     private class WeatherTask extends AsyncTask<Place, Void, Weather[]> {
@@ -108,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
             String wuString = "/" + o.getStateSymbol() + "/" + o.getCity();
             String noaaString = o.getLat() + "," + o.getLon();
 
- /*           String AccuDataCurrent = null;
+            String AccuDataCurrent = null;
             try {
                 AccuDataCurrent = ((new HTTPClient()).getAccuWeatherCurrentData((accuString)));
             } catch (MalformedURLException e) {
@@ -138,24 +164,24 @@ public class MainActivity extends AppCompatActivity {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-  */          /*String NOAADataCurrent = null;
+
+            String NOAADataCurrent = null;
             try {
-                NOAADataCurrent = ((new HTTPClient()).getWUWeatherCurrentData((wuString)));
+                NOAADataCurrent = ((new HTTPClient()).getNOAAWeatherCurrentData((noaaString)));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-            }*/
-            String NOAAData = null;
+            }
+            String NOAADataHourly = null;
             try {
-                NOAAData = ((new HTTPClient()).getNOAAWeatherData((noaaString)));
+                NOAADataHourly = ((new HTTPClient()).getNOAAWeatherHourlyData((noaaString)));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
 
-
-            //weather[0] = JSONParser.getAccuWeather(AccuDataCurrent, AccuDataHourly12);
-            //weather[1] = JSONParser.getDarkSkyWeather(DarkSkyData);
-            //weather[2] = JSONParser.getWUWeather(WUDataCurrent, WUDataHourly);
-            weather[3] = JSONParser.getNOAAWeather(NOAAData);
+            weather[0] = JSONParser.getAccuWeather(AccuDataCurrent, AccuDataHourly12);
+            weather[1] = JSONParser.getDarkSkyWeather(DarkSkyData);
+            weather[2] = JSONParser.getWUWeather(WUDataCurrent, WUDataHourly);
+            weather[3] = JSONParser.getNOAAWeather(NOAADataCurrent, NOAADataHourly);
 
             return weather;
         }
@@ -163,35 +189,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Weather[] weather) {
             super.onPostExecute(weather);
-/*
-            textView.append(weather[0].currentCondition.getTemperature() + "\n");
-            textView.append("\n" + weather[0].currentCondition.getTime() + "\n");
-            textView.append("\n" + weather[0].currentCondition.getDescription() + "\n");
-            textView.append("\n" + weather[0].currentCondition.getWindSpeed() + "\n");
-            textView.append("\n" + weather[0].currentCondition.getPercipitation() + "\n");
-
-            textView.append(weather[0].currentCondition.getTemperature() + "\n");
-            textView.append("\n" + weather[0].hourly.get(6).getTime() + "\n");
-            textView.append("\n" + weather[0].hourly.get(6).getTemperature() + "\n");
-            textView.append("\n" + weather[0].hourly.get(6).getWind() + "\n");
-            textView.append("\n" + weather[0].hourly.get(6).getPercipitation() + "\n");
-
-            textView.append("\n\n\n\n");
-            textView.append("\n" + weather[1].currentCondition.getTemperature() + "\n");
-            textView.append("\n" + weather[1].currentCondition.getTime() + "\n");
-            textView.append("\n" + weather[1].hourly.get(21).getTemperature() + "\n");
-            textView.append("\n" + weather[1].hourly.get(21).getTime() + "\n");
-            textView.append("\n" + weather[2].currentCondition.getTemperature() + "\n");
-            textView.append("\n" + weather[2].currentCondition.getTime() + "\n");
-            textView.append("\n" + weather[2].hourly.get(21).getTemperature() + "\n");
-            textView.append("\n" + weather[2].hourly.get(21).getTime() + "\n");
-*/
-
-            textView.append(weather[3].currentCondition.getTemperature() + "\n");
-            textView.append("\n" + weather[3].currentCondition.getTime() + "\n");
-            textView.append("\n" + weather[3].currentCondition.getDescription() + "\n");
-            textView.append("\n" + weather[3].currentCondition.getWindSpeed() + "\n");
-            textView.append("\n" + weather[3].currentCondition.getPercipitation() + "\n");
         }
     }
 }
