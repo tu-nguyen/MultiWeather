@@ -1,34 +1,21 @@
 package edu.umb.multiweather;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
+
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
-import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.List;
-import java.util.Locale;
 
+import Utils.Utils;
+import data.GPSTracker;
 import data.JSONParser;
-import data.LocationHttpClient;
-import data.WeatherHttpClient;
-import model.Hourly;
+import data.HTTPClient;
 import model.Place;
 import model.Weather;
 
@@ -43,12 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private double chanceOfRain;
     private double windSpeed;
 
-    double lat;
-    double lon;
-    //String country;
-    //String city;
-    //String zip;
-    //String code;
+    float lat;
+    float lon;
 
     private TextView textView;
 
@@ -63,17 +46,22 @@ public class MainActivity extends AppCompatActivity {
         GPSTracker g = new GPSTracker(getApplicationContext());
         Location location = g.getLocation();
         if (location != null){
-            lat = location.getLatitude();
-            lon = location.getLongitude();
+            lat = (float) location.getLatitude();
+            lon = (float) location.getLongitude();
         }
 
         textView = (TextView) findViewById(R.id.textView);
 
         //getLocationData(lat, lon);
+
         place.setCity("Boston");
         place.setState("Massachusetts");
         place.setCountry("USA");
         place.setStateSymbol("MA");
+        place.setLat((float) 42.29329301);
+        place.setLon((float) -71.06115946);
+        place.setCode(String.valueOf(348735));
+
 
         renderWeatherData(place);
 
@@ -87,7 +75,12 @@ public class MainActivity extends AppCompatActivity {
     private class LocationTask extends AsyncTask<String, Void, Place> {
         @Override
         protected Place doInBackground(String... strings) {
-            String LocationData = ((new LocationHttpClient()).getLocationData(lat, lon));
+            String LocationData = null;
+            try {
+                LocationData = ((new HTTPClient()).getLocationData(lat, lon));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
 
             place = JSONParser.getLocation(LocationData);
             return place;
@@ -96,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Place place) {
             super.onPostExecute(place);
-            textView.setText(place.getCode());
         }
     }
 
@@ -114,41 +106,56 @@ public class MainActivity extends AppCompatActivity {
             String accuString = o.getCode();
             String darkskyString = o.getLat() + "," + o.getLon();
             String wuString = "/" + o.getStateSymbol() + "/" + o.getCity();
+            String noaaString = o.getLat() + "," + o.getLon();
 
-            String AccuDataCurrent = null;
+ /*           String AccuDataCurrent = null;
             try {
-                AccuDataCurrent = ((new WeatherHttpClient()).getAccuWeatherCurrentData((accuString)));
+                AccuDataCurrent = ((new HTTPClient()).getAccuWeatherCurrentData((accuString)));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
             String AccuDataHourly12 = null;
             try {
-                AccuDataHourly12 = ((new WeatherHttpClient()).getAccuWeatherHourly12Data((accuString)));
+                AccuDataHourly12 = ((new HTTPClient()).getAccuWeatherHourly12Data((accuString)));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
             String DarkSkyData = null;
             try {
-                DarkSkyData = ((new WeatherHttpClient()).getDarkSkyWeatherData(darkskyString));
+                DarkSkyData = ((new HTTPClient()).getDarkSkyWeatherData(darkskyString));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
             String WUDataCurrent = null;
             try {
-                WUDataCurrent = ((new WeatherHttpClient()).getWUWeatherCurrentData((wuString)));
+                WUDataCurrent = ((new HTTPClient()).getWUWeatherCurrentData((wuString)));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
             String WUDataHourly = null;
             try {
-                WUDataHourly = ((new WeatherHttpClient()).getWUWeatherHourly12Data((wuString)));
+                WUDataHourly = ((new HTTPClient()).getWUWeatherHourly12Data((wuString)));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+  */          /*String NOAADataCurrent = null;
+            try {
+                NOAADataCurrent = ((new HTTPClient()).getWUWeatherCurrentData((wuString)));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }*/
+            String NOAAData = null;
+            try {
+                NOAAData = ((new HTTPClient()).getNOAAWeatherData((noaaString)));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
 
+
             //weather[0] = JSONParser.getAccuWeather(AccuDataCurrent, AccuDataHourly12);
             //weather[1] = JSONParser.getDarkSkyWeather(DarkSkyData);
-            weather[2] = JSONParser.getWUWeather(WUDataCurrent, WUDataHourly);
+            //weather[2] = JSONParser.getWUWeather(WUDataCurrent, WUDataHourly);
+            weather[3] = JSONParser.getNOAAWeather(NOAAData);
 
             return weather;
         }
@@ -156,6 +163,35 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Weather[] weather) {
             super.onPostExecute(weather);
+/*
+            textView.append(weather[0].currentCondition.getTemperature() + "\n");
+            textView.append("\n" + weather[0].currentCondition.getTime() + "\n");
+            textView.append("\n" + weather[0].currentCondition.getDescription() + "\n");
+            textView.append("\n" + weather[0].currentCondition.getWindSpeed() + "\n");
+            textView.append("\n" + weather[0].currentCondition.getPercipitation() + "\n");
+
+            textView.append(weather[0].currentCondition.getTemperature() + "\n");
+            textView.append("\n" + weather[0].hourly.get(6).getTime() + "\n");
+            textView.append("\n" + weather[0].hourly.get(6).getTemperature() + "\n");
+            textView.append("\n" + weather[0].hourly.get(6).getWind() + "\n");
+            textView.append("\n" + weather[0].hourly.get(6).getPercipitation() + "\n");
+
+            textView.append("\n\n\n\n");
+            textView.append("\n" + weather[1].currentCondition.getTemperature() + "\n");
+            textView.append("\n" + weather[1].currentCondition.getTime() + "\n");
+            textView.append("\n" + weather[1].hourly.get(21).getTemperature() + "\n");
+            textView.append("\n" + weather[1].hourly.get(21).getTime() + "\n");
+            textView.append("\n" + weather[2].currentCondition.getTemperature() + "\n");
+            textView.append("\n" + weather[2].currentCondition.getTime() + "\n");
+            textView.append("\n" + weather[2].hourly.get(21).getTemperature() + "\n");
+            textView.append("\n" + weather[2].hourly.get(21).getTime() + "\n");
+*/
+
+            textView.append(weather[3].currentCondition.getTemperature() + "\n");
+            textView.append("\n" + weather[3].currentCondition.getTime() + "\n");
+            textView.append("\n" + weather[3].currentCondition.getDescription() + "\n");
+            textView.append("\n" + weather[3].currentCondition.getWindSpeed() + "\n");
+            textView.append("\n" + weather[3].currentCondition.getPercipitation() + "\n");
         }
     }
 }

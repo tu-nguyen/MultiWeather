@@ -1,4 +1,4 @@
-package edu.umb.multiweather;
+package data;
 
 import android.Manifest;
 import android.content.Context;
