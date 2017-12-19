@@ -16,16 +16,15 @@ public class HTTPClient {
 
     public String getLocationData(float lat, float lon) throws MalformedURLException {
         String end = "&q=" + lat + "," + lon;
-        return getData(new URL(Utils.ACCU_LOCATION_BASE_URL +  Utils.ACCU_API2 + end));
+        return getData(new URL(Utils.ACCU_LOCATION_BASE_URL +  Utils.ACCU_API + end));
     }
 
     public String getAccuWeatherCurrentData(String locationCode) throws MalformedURLException {
-        Log.v("QQQQQQQQQQQQQQQQQQQQQQQQQ::: ", Utils.ACCU_BASE_URL_CURR + locationCode + Utils.ACCU_API2 + "&details=true");
-        return getData(new URL(Utils.ACCU_BASE_URL_CURR + locationCode + Utils.ACCU_API2 + "&details=true"));
+        return getData(new URL(Utils.ACCU_BASE_URL_CURR + locationCode + Utils.ACCU_API + "&details=true"));
     }
 
     public String getAccuWeatherHourly12Data(String locationCode) throws MalformedURLException {
-        return getData(new URL(Utils.ACCU_BASE_URL12 + locationCode + Utils.ACCU_API2 + "&details=true"));
+        return getData(new URL(Utils.ACCU_BASE_URL12 + locationCode + Utils.ACCU_API + "&details=true"));
     }
 
     public String getDarkSkyWeatherData(String place) throws MalformedURLException {
@@ -40,7 +39,15 @@ public class HTTPClient {
         return getData(new URL(Utils.WU_BASE_URL_HR + place + ".json"));
     }
 
-    public String getNOAAWeatherData(String place) throws MalformedURLException {
+    public String getNOAAWeatherCurrentData(String place) throws MalformedURLException {
+        Log.v("QQQQQQQQQQQQQQQQQQQQQQQQQ::: ", Utils.NOAA_BASE_URL + place + Utils.NOAA_BASE_URL_CURR);
+
+        return getData(new URL(Utils.NOAA_BASE_URL + place + Utils.NOAA_BASE_URL_CURR));
+    }
+
+    public String getNOAAWeatherHourlyData(String place) throws MalformedURLException {
+        Log.v("QQQQQQQQQQQQQQQQQQQQQQQQQ::: ", Utils.NOAA_BASE_URL + place + Utils.NOAA_BASE_URL_HOURLY);
+
         return getData(new URL(Utils.NOAA_BASE_URL + place + Utils.NOAA_BASE_URL_HOURLY));
     }
 

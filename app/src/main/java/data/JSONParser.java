@@ -220,7 +220,7 @@ public class JSONParser {
 
             //get weather info // FROM AN ARRAY
             JSONObject propertiesHourlyObject = getObject("properties", otherObject);
-            JSONArray jsonHourlyArray = propertiesObject.getJSONArray("periods");
+            JSONArray jsonHourlyArray = propertiesHourlyObject.getJSONArray("periods");
             JSONObject arr[] = new JSONObject[24];
 
             for (int i = 0; i < 24; i++) {
