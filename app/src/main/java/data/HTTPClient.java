@@ -14,9 +14,19 @@ import Utils.Utils;
 
 public class HTTPClient {
 
-    public String getLocationData(float lat, float lon) throws MalformedURLException {
+    public String getLocationDataGeo(float lat, float lon) throws MalformedURLException {
         String end = "&q=" + lat + "," + lon;
-        return getData(new URL(Utils.ACCU_LOCATION_BASE_URL +  Utils.ACCU_API + end));
+        return getData(new URL(Utils.ACCU_LOCATION_GEO_BASE_URL +  Utils.ACCU_API + end));
+    }
+
+    public String getLocationDataZip(int zip) throws MalformedURLException {
+        String end = "&q=" + zip;
+        return getData(new URL(Utils.ACCU_LOCATION_ZIP_BASE_URL +  Utils.ACCU_API + end));
+    }
+
+    public String getLocationDataCity(String city) throws MalformedURLException {
+        String end = "&q=" + city;
+        return getData(new URL(Utils.ACCU_LOCATION_CITY_BASE_URL +  Utils.ACCU_API + end));
     }
 
     public String getAccuWeatherCurrentData(String locationCode) throws MalformedURLException {

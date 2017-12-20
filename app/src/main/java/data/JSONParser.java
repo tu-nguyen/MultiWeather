@@ -12,7 +12,7 @@ import model.uPlace;
 import model.Weather;
 
 public class JSONParser {
-    public static uPlace getLocation (String data) {
+    public static uPlace getLocationGeo(String data) {
         uPlace uPlace = new uPlace();
 
         try {
@@ -28,6 +28,56 @@ public class JSONParser {
             uPlace.setCity(getString("EnglishName", locObject));
             uPlace.setZip(getString("PrimaryPostalCode", locObject));
             uPlace.setCode(getString("Key", locObject));
+
+            return uPlace;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static uPlace getLocationZip(String data) {
+        uPlace uPlace = new uPlace();
+
+        try {
+            JSONArray locArray  = new JSONArray(data);
+            JSONObject locObj = locArray.getJSONObject(0);
+            JSONObject countryObj = getObject("Country", locObj);
+            JSONObject stateObj = getObject("AdministrativeArea", locObj);
+            JSONObject geoObj = getObject("GeoPosition", locObj);
+            uPlace.setLat(getFloat("Latitude", geoObj));
+            uPlace.setLon(getFloat("Longitude", geoObj));
+            uPlace.setCountry(getString("EnglishName", countryObj));
+            uPlace.setState(getString("EnglishName", stateObj));
+            uPlace.setStateSymbol(getString("ID", stateObj));
+            uPlace.setCity(getString("EnglishName", locObj));
+            uPlace.setZip(getString("PrimaryPostalCode", locObj));
+            uPlace.setCode(getString("Key", locObj));
+
+            return uPlace;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static uPlace getLocationCity(String data) {
+        uPlace uPlace = new uPlace();
+
+        try {
+            JSONArray locArray  = new JSONArray(data);
+            JSONObject locObj = locArray.getJSONObject(0);
+            JSONObject countryObj = getObject("Country", locObj);
+            JSONObject stateObj = getObject("AdministrativeArea", locObj);
+            JSONObject geoObj = getObject("GeoPosition", locObj);
+            uPlace.setLat(getFloat("Latitude", geoObj));
+            uPlace.setLon(getFloat("Longitude", geoObj));
+            uPlace.setCountry(getString("EnglishName", countryObj));
+            uPlace.setState(getString("EnglishName", stateObj));
+            uPlace.setStateSymbol(getString("ID", stateObj));
+            uPlace.setCity(getString("EnglishName", locObj));
+            uPlace.setZip(getString("PrimaryPostalCode", locObj));
+            uPlace.setCode(getString("Key", locObj));
 
             return uPlace;
         } catch (JSONException e) {

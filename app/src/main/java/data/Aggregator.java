@@ -28,7 +28,6 @@ public class Aggregator {
                 + data[2].currentCondition.getWindSpeed() +
                 data[3].currentCondition.getWindSpeed())/4);
 
-
         for (int i = 0; i < 12; i++) {
             Hourly hourly = new Hourly();
 
@@ -55,8 +54,7 @@ public class Aggregator {
         ArrayList<Hourly> obj = new ArrayList<Hourly>();
 
         double maxTemp = 0;
-        for (int i = 0; i < data.length; i++) {
-
+        for (int i = 0; i < data.length - 1; i++) {
             if (data[i].currentCondition.getTemperature() > data[i + 1].currentCondition.getTemperature()){
                 maxTemp = data[i].currentCondition.getTemperature();
             } else {
@@ -66,8 +64,7 @@ public class Aggregator {
         weather.currentCondition.setTemperature(maxTemp);
 
         double maxPrecipitation = 0;
-        for (int i = 0; i < data.length - 1; i++) {
-
+        for (int i = 0; i < data.length - 2; i++) {
             if (data[i].currentCondition.getPercipitation() > data[i + 1].currentCondition.getPercipitation()){
                 maxPrecipitation = data[i].currentCondition.getPercipitation();
             } else {
@@ -77,8 +74,7 @@ public class Aggregator {
         weather.currentCondition.setTemperature(maxPrecipitation);
 
         double maxWind = 0;
-        for (int i = 0; i < data.length; i++) {
-
+        for (int i = 0; i < data.length -1; i++) {
             if (data[i].currentCondition.getWindSpeed() > data[i + 1].currentCondition.getWindSpeed()){
                 maxWind = data[i].currentCondition.getWindSpeed();
             } else {
@@ -91,7 +87,7 @@ public class Aggregator {
             Hourly hourly = new Hourly();
 
             maxTemp = 0;
-            for (int j = 0; j < data.length; j++) {
+            for (int j = 0; j < data.length -1; j++) {
 
                 if (data[j].hourly.get(i).getTemperature() > data[j + 1].hourly.get(i).getTemperature()){
                     maxTemp = data[j].hourly.get(i).getTemperature();
@@ -100,8 +96,7 @@ public class Aggregator {
                 }
             }
             maxPrecipitation = 0;
-            for (int j = 0; j < data.length -1; j++) {
-
+            for (int j = 0; j < data.length -2; j++) {
                 if (data[j].hourly.get(i).getPercipitation() > data[j + 1].hourly.get(i).getPercipitation()){
                     maxPrecipitation = data[j].hourly.get(i).getPercipitation();
                 } else {
@@ -109,8 +104,7 @@ public class Aggregator {
                 }
             }
             maxWind = 0;
-            for (int j = 0; j < data.length; j++) {
-
+            for (int j = 0; j < data.length -1; j++) {
                 if (data[j].hourly.get(i).getWind() > data[j + 1].hourly.get(i).getWind()){
                     maxWind = data[j].hourly.get(i).getWind();
                 } else {
@@ -130,8 +124,7 @@ public class Aggregator {
         ArrayList<Hourly> obj = new ArrayList<Hourly>();
 
         double minTemp = 0;
-        for (int i = 0; i < data.length; i++) {
-
+        for (int i = 0; i < data.length - 1; i++) {
             if (data[i].currentCondition.getTemperature() < data[i + 1].currentCondition.getTemperature()){
                 minTemp = data[i].currentCondition.getTemperature();
             } else {
@@ -141,8 +134,7 @@ public class Aggregator {
         weather.currentCondition.setTemperature(minTemp);
 
         double minPrecipitation = 0;
-        for (int i = 0; i < data.length - 1; i++) {
-
+        for (int i = 0; i < data.length - 2; i++) {
             if (data[i].currentCondition.getPercipitation() < data[i + 1].currentCondition.getPercipitation()){
                 minPrecipitation = data[i].currentCondition.getPercipitation();
             } else {
@@ -152,8 +144,7 @@ public class Aggregator {
         weather.currentCondition.setTemperature(minPrecipitation);
 
         double minWind = 0;
-        for (int i = 0; i < data.length; i++) {
-
+        for (int i = 0; i < data.length - 1; i++) {
             if (data[i].currentCondition.getWindSpeed() < data[i + 1].currentCondition.getWindSpeed()){
                 minWind = data[i].currentCondition.getWindSpeed();
             } else {
@@ -166,7 +157,7 @@ public class Aggregator {
             Hourly hourly = new Hourly();
 
             minTemp = 0;
-            for (int j = 0; j < data.length; j++) {
+            for (int j = 0; j < data.length - 1; j++) {
 
                 if (data[j].hourly.get(i).getTemperature() < data[j + 1].hourly.get(i).getTemperature()){
                     minTemp = data[j].hourly.get(i).getTemperature();
@@ -175,8 +166,7 @@ public class Aggregator {
                 }
             }
             minPrecipitation = 0;
-            for (int j = 0; j < data.length -1; j++) {
-
+            for (int j = 0; j < data.length -2; j++) {
                 if (data[j].hourly.get(i).getPercipitation() < data[j + 1].hourly.get(i).getPercipitation()){
                     minPrecipitation = data[j].hourly.get(i).getPercipitation();
                 } else {
@@ -184,8 +174,7 @@ public class Aggregator {
                 }
             }
             minWind = 0;
-            for (int j = 0; j < data.length; j++) {
-
+            for (int j = 0; j < data.length - 1; j++) {
                 if (data[j].hourly.get(i).getWind() < data[j + 1].hourly.get(i).getWind()){
                     minWind = data[j].hourly.get(i).getWind();
                 } else {

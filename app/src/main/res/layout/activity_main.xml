@@ -15,12 +15,18 @@
         android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
         />
 
-    <FrameLayout
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <!--FrameLayout
         android:id="@+id/fragment"
         android:name="edu.umb.multiweather.AggregatedFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </FrameLayout>
+    </FrameLayout!-->
 
 
 </LinearLayout>

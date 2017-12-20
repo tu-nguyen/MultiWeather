@@ -5,13 +5,13 @@ package model;
  */
 
 public class Wind {
-    private float speed;
+    private double speed;
 
-    public float getSpeed() {
+    public double getSpeed() {
         return speed;
     }
 
-    public void setSpeed(float speed) {
+    public void setSpeed(double speed) {
         this.speed = speed;
     }
 }
