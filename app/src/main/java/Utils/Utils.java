@@ -12,7 +12,8 @@ public class Utils {
 
     //public static final String ACCU_API = "?apikey=M0oSkwlU0CRh1FLdL2prvLLF3qlhXV7L";
     //public static final String ACCU_API = "?apikey=zxKSv2TAkC9nAFqctOGy9xvwbGFloTeZ";
-    public static final String ACCU_API = "?apikey=Zj57b0q6fadJyOP3ufLV9wugf568Z1Ae";
+    //public static final String ACCU_API = "?apikey=Zj57b0q6fadJyOP3ufLV9wugf568Z1Ae";
+    public static final String ACCU_API = "?apikey=0W8rK2H9d8E4fhNPxnbSXZF49SCdLTOl";
 
 
     // DarkSky

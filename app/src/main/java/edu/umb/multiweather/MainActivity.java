@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.common.api.Status;
@@ -28,31 +30,89 @@ import static data.Aggregator.getMin;
 
 
 public class MainActivity extends AppCompatActivity {
-    float lat;
-    float lon;
-    int zip;
-    String city;
+    final String DEGREE  = "\u00b0";
+    final int MEAN = 0;
+    final int MAX = 1;
+    final int MIN = 2;
 
-    uPlace uPlace = new uPlace();
-    Weather weather[] = new Weather[4];
-    Weather meanWeather = new Weather();
-    Weather maxWeather = new Weather();
-    Weather minWeather = new Weather();
+    private float lat;
+    private float lon;
+    private int zip;
+    private String city;
+
+    private uPlace uPlace = new uPlace();
+    private Weather weather[] = new Weather[4];
+    private Weather meanWeather = new Weather();
+    private Weather maxWeather = new Weather();
+    private Weather minWeather = new Weather();
 
     DecimalFormat f = new DecimalFormat("#0.00");
+    private TextView titleText;
+    private TextView tempText;
+    private TextView locationText;
+    private TextView precipitationTitleText ;
+    private TextView precipitationText;
+    private TextView windSpeedTitle;
+    private TextView windSpeed;
+    private TextView modeText;
+
+    private Button hourlyAggregated;
+    private Button compareCurrent;
+    private Button compareHourly;
+
+    private Button meanButton;
+    private Button maxButton;
+    private Button minButton;
+
+    private int mode = 0;
+
+    private TextView alertText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final TextView titleText = findViewById(R.id.titleText);
-        final TextView tempText = findViewById(R.id.tempText);
-        final TextView locationText = findViewById(R.id.locationText);
-        final TextView precipitationTitleText = findViewById(R.id.precipitationTitleText);
-        final TextView precipitationText = findViewById(R.id.precipitationText);
-        final TextView windSpeedTitle = findViewById(R.id.windSpeedTitleText);
-        final TextView windSpeed = findViewById(R.id.windSpeedText);
+        titleText = findViewById(R.id.titleText);
+        tempText = findViewById(R.id.tempText);
+        locationText = findViewById(R.id.locationText);
+        precipitationTitleText = findViewById(R.id.precipitationTitleText);
+        precipitationText = findViewById(R.id.precipitationText);
+        windSpeedTitle = findViewById(R.id.windSpeedTitleText);
+        windSpeed = findViewById(R.id.windSpeedText);
+        modeText = findViewById(R.id.modeView);
+
+        hourlyAggregated = findViewById(R.id.hourlyAggregatedButton);
+        compareCurrent = findViewById(R.id.compareCurrentButton);
+        compareHourly = findViewById(R.id.comareHourlyButton);
+
+        meanButton = findViewById(R.id.meanButton);
+        maxButton = findViewById(R.id.maxButton);
+        minButton = findViewById(R.id.minButton);
+
+        meanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mode = MEAN;
+                updateData(weather);
+            }
+        });
+        maxButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mode = MAX;
+                updateData(weather);
+            }
+        });
+        minButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mode = MIN;
+                updateData(weather);
+            }
+        });
+
+        alertText = findViewById(R.id.alertText);
 
         GPSTracker g = new GPSTracker(getApplicationContext());
         Location location = g.getLocation();
@@ -60,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
             lat = (float) location.getLatitude();
             lon = (float) location.getLongitude();
         }
+
+        /*
 
         try {
             getLocationDataGeo(lat, lon);
@@ -69,6 +131,16 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        */
+        uPlace.setLat((float) 42.3601);
+        uPlace.setLon((float) -71.0589);
+        uPlace.setCity("Boston");
+        uPlace.setCountry("United States");
+        uPlace.setState("Massachusetts");
+        uPlace.setStateSymbol("MA");
+        uPlace.setZip(String.valueOf(02122));
+        uPlace.setCode(String.valueOf(000000));
+
         try {
             renderWeatherData(uPlace);
         } catch (ExecutionException e) {
@@ -77,45 +149,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        meanWeather = getMean(weather);
-        maxWeather = getMax(weather);
-        minWeather = getMin(weather);
-
-        locationText.setText(uPlace.getCity() + ", " + uPlace.getState());
-        tempText.setText(f.format(meanWeather.currentCondition.getTemperature()));
-        precipitationText.setText(f.format(meanWeather.currentCondition.getPercipitation()));
-        windSpeed.setText(f.format(meanWeather.currentCondition.getWindSpeed()));
-
-        /*
-        textView.setText("");
-        textView.append("AccuWeather Temp: " + weather[0].currentCondition.getTemperature() + "\n");
-        textView.append("AccuWeather Pop: " + weather[0].currentCondition.getPercipitation() + "\n");
-        textView.append("AccuWeather Wind: " + weather[0].currentCondition.getWindSpeed() + "\n");
-        textView.append("DarkSky Temp: " + weather[1].currentCondition.getTemperature() + "\n");
-        textView.append("DarkSky Pop: " + weather[1].currentCondition.getPercipitation() + "\n");
-        textView.append("DarkSky Wind: " + weather[1].currentCondition.getWindSpeed() + "\n");
-        textView.append("WU Temp: " + weather[2].currentCondition.getTemperature() + "\n");
-        textView.append("WU Pop: " + weather[2].currentCondition.getPercipitation() + "\n");
-        textView.append("WU Wind: " + weather[2].currentCondition.getWindSpeed() + "\n");
-        textView.append("noaa Temp: " + weather[3].currentCondition.getTemperature() + "\n");
-        textView.append("noaa Pop: " + " Not Available\n");
-        textView.append("noaa Wind: " + weather[3].currentCondition.getWindSpeed() + "\n");
-
-        textView.append("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
-
-        textView.append("Mean Temp: " + meanWeather.currentCondition.getTemperature() + "\n");
-        textView.append("Mean Pop: " + meanWeather.currentCondition.getPercipitation() + "\n");
-        textView.append("Mean Wind: " + meanWeather.currentCondition.getWindSpeed() + "\n");
-        textView.append("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
-        textView.append("Max Temp: " + maxWeather.currentCondition.getTemperature() + "\n");
-        textView.append("Max Pop: " + maxWeather.currentCondition.getPercipitation() + "\n");
-        textView.append("Max Wind: " + maxWeather.currentCondition.getWindSpeed() + "\n");
-        textView.append("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
-        textView.append("Min Temp: " + minWeather.currentCondition.getTemperature() + "\n");
-        textView.append("Min Pop: " + minWeather.currentCondition.getPercipitation() + "\n");
-        textView.append("Min Wind: " + minWeather.currentCondition.getWindSpeed() + "\n");
-        */
-
+        updateData(this.weather);
 
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
@@ -127,6 +161,18 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("test", "uPlace: " + place.getName());
                 city = (String) place.getName();
 
+                uPlace.setLat((float) place.getLatLng().latitude);
+                uPlace.setLon((float) place.getLatLng().longitude);
+                uPlace.setCity((String) ((String) place.getName()).replaceAll(" ", ""));
+                String[] temp = place.getAddress().toString().split(", ");
+                Log.v("QQQQQQQQQQQQQQQQq::: ", place.getAddress().toString());
+                uPlace.setCountry(temp[2]);
+                uPlace.setState(temp[0].replaceAll(" ", ""));
+                uPlace.setStateSymbol(temp[2]);
+                uPlace.setZip(String.valueOf(02122));
+                uPlace.setCode(String.valueOf(000000));
+
+                /*
                 try {
                     getLocationDataCity(city);
                 } catch (ExecutionException e) {
@@ -134,12 +180,16 @@ public class MainActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                */
+                try {
+                    renderWeatherData(uPlace);
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
-                locationText.setText(uPlace.getCity() + ", " + uPlace.getState());
-                tempText.setText(f.format(meanWeather.currentCondition.getTemperature()));
-                precipitationText.setText(f.format(meanWeather.currentCondition.getPercipitation()));
-                windSpeed.setText(f.format(meanWeather.currentCondition.getWindSpeed()));
-
+                updateData(weather);
             }
             @Override
             public void onError(Status status) {
@@ -147,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("test", "An error occurred: " + status);
             }
         });
-/*
+        /*
         // Begin the transaction
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         // Replace the contents of the container with the new fragment
@@ -251,6 +301,7 @@ public class MainActivity extends AppCompatActivity {
             String wuString = "/" + o.getStateSymbol() + "/" + o.getCity();
             String noaaString = o.getLat() + "," + o.getLon();
 
+            /*
             String AccuDataCurrent = null;
             try {
                 AccuDataCurrent = ((new HTTPClient()).getAccuWeatherCurrentData((accuString)));
@@ -263,6 +314,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
+            */
             String DarkSkyData = null;
             try {
                 DarkSkyData = ((new HTTPClient()).getDarkSkyWeatherData(darkskyString));
@@ -295,10 +347,12 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            weather[0] = JSONParser.getAccuWeather(AccuDataCurrent, AccuDataHourly12);
+            //weather[0] = JSONParser.getAccuWeather(AccuDataCurrent, AccuDataHourly12);
+            // Cause accuWeather sets stupid 50 limit smfh
             weather[1] = JSONParser.getDarkSkyWeather(DarkSkyData);
             weather[2] = JSONParser.getWUWeather(WUDataCurrent, WUDataHourly);
             weather[3] = JSONParser.getNOAAWeather(NOAADataCurrent, NOAADataHourly);
+            weather[0] = JSONParser.getDarkSkyWeather(DarkSkyData);;
 
             return weather;
         }
@@ -307,7 +361,38 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Weather[] weather) {
             super.onPostExecute(weather);
 
-
+            //updateData(weather);
         }
+    }
+
+    private void updateData(Weather[] weather) {
+        meanWeather = getMean(weather);
+        maxWeather = getMax(weather);
+        minWeather = getMin(weather);
+
+        if (mode == MEAN) {
+            modeText.setText("Mean");
+            locationText.setText(uPlace.getCity() + ", " + uPlace.getState());
+            tempText.setText(f.format(meanWeather.currentCondition.getTemperature()) + DEGREE + "F");
+            precipitationText.setText(f.format(meanWeather.currentCondition.getPercipitation()) + "%");
+            windSpeed.setText(f.format(meanWeather.currentCondition.getWindSpeed()) + "mph");
+            alertText.setText(weather[1].currentCondition.getAlert());
+        } else if (mode == MAX) {
+            modeText.setText("Max ");
+            locationText.setText(uPlace.getCity() + ", " + uPlace.getState());
+            tempText.setText(f.format(maxWeather.currentCondition.getTemperature()) + DEGREE + "F");
+            precipitationText.setText(f.format(maxWeather.currentCondition.getPercipitation()) + "%");
+            windSpeed.setText(f.format(maxWeather.currentCondition.getWindSpeed()) + "mph");
+            alertText.setText(weather[1].currentCondition.getAlert());
+        } else if (mode == MIN) {
+            modeText.setText("Min ");
+            locationText.setText(uPlace.getCity() + ", " + uPlace.getState());
+            tempText.setText(f.format(minWeather.currentCondition.getTemperature()) + DEGREE + "F");
+            precipitationText.setText(f.format(minWeather.currentCondition.getPercipitation()) + "%");
+            windSpeed.setText(f.format(minWeather.currentCondition.getWindSpeed()) + "mph");
+            alertText.setText(weather[1].currentCondition.getAlert());
+        }
+
+
     }
 }

@@ -10,6 +10,7 @@ public class CurrentCondition {
     private double temperature;
     private double percipitation;
     private double windSpeed;
+    private String alert;
 
     public int getTime() {
         return time;
@@ -49,5 +50,16 @@ public class CurrentCondition {
 
     public void setWindSpeed(double windSpeed) {
         this.windSpeed = windSpeed;
+    }
+
+    public String getAlert() {
+        if (alert != null) {
+            return alert;
+        }
+        return "No alert for this location";
+    }
+
+    public void setAlert(String alert) {
+        this.alert = alert;
     }
 }

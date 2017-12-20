@@ -15,6 +15,45 @@
         android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
         />
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Aggregate Hourly"
+            android:id="@+id/hourlyAggregatedButton"
+            android:layout_weight="1"
+            android:background="#40ffffff"
+            android:textColor="#ffffffff"/>
+
+        <Button
+            android:id="@+id/compareCurrentButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_weight="1"
+            android:background="#40ffffff"
+            android:text="Compare Current"
+            android:textColor="#ffffffff" />
+
+        <Button
+            android:id="@+id/comareHourlyButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_weight="1"
+            android:background="#40ffffff"
+            android:text="Compare Hourly"
+            android:textColor="#ffffffff" />
+
+
+    </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,10 +63,10 @@
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/locationText"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:text="Aggregated Data"
+            android:layout_marginTop="14dp"
+            android:text="Aggregated Data: "
             android:textColor="@android:color/white"
             android:textSize="24sp" />
 
@@ -37,6 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/locationText"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
             android:text="--"
             android:textColor="@android:color/white"
             android:textSize="100sp" />
@@ -53,10 +93,12 @@
 
         <TextView
             android:id="@+id/precipitationTitleText"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/precipitationText"
-            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tempText"
+            android:layout_marginStart="34dp"
+            android:layout_marginTop="20dp"
             android:text="Precipitation:"
             android:textColor="@android:color/white"
             android:textSize="24sp" />
@@ -65,8 +107,10 @@
             android:id="@+id/precipitationText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/locationText"
+            android:layout_alignBaseline="@+id/precipitationTitleText"
+            android:layout_alignBottom="@+id/precipitationTitleText"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="38dp"
             android:text="- -"
             android:textColor="@android:color/white"
             android:textSize="24sp" />
@@ -89,6 +133,67 @@
             android:layout_alignBottom="@+id/windSpeedTitleText"
             android:layout_alignEnd="@+id/precipitationText"
             android:text="- -"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mean"
+                android:id="@+id/meanButton"
+                android:layout_weight="1"
+                android:background="#40ffffff"
+                android:textColor="#ffffffff"/>
+
+            <Button
+                android:id="@+id/maxButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1"
+                android:background="#40ffffff"
+                android:text="Max"
+                android:textColor="#ffffffff" />
+
+            <Button
+                android:id="@+id/minButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1"
+                android:background="#40ffffff"
+                android:text="Min"
+                android:textColor="#ffffffff" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/alertText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/windSpeedTitleText"
+            android:layout_marginTop="57dp"
+            android:text="Alerts"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/modeView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/titleText"
+            android:layout_alignBottom="@+id/titleText"
+            android:layout_toEndOf="@+id/titleText"
+            android:text="TextView"
             android:textColor="@android:color/white"
             android:textSize="24sp" />
 

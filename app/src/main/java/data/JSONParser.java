@@ -155,6 +155,18 @@ public class JSONParser {
 
             // get curr object
             JSONObject currObj = getObject("currently", jsonObject);
+            //JSONObject alertObj = getObject("alerts", currObj);
+            /*
+            currentCondition.setAlert("No alerts for this area");
+            if (!currObj.getJSONArray("alerts").toString().isEmpty()) {
+                JSONArray alertArray = currObj.getJSONArray("alerts");
+                if (!alertArray.isNull(0)) {
+                    JSONObject alertObj = alertArray.getJSONObject(0);
+                    currentCondition.setAlert(getString("title", alertObj));
+                }
+            }
+            */
+
             currentCondition.setTime(getInt("time", currObj));
             currentCondition.setDescription(getString("summary", currObj));
             currentCondition.setTemperature(getDouble("temperature", currObj));

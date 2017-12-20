@@ -1,7 +1,5 @@
 package data;
 
-import android.util.Log;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -59,8 +57,8 @@ public class Aggregator {
 
         double maxTemp = 0;
         for (int i = 0; i < data.length - 1; i++) {
-            Log.v("[i]: ", "" + data[i].currentCondition.getTemperature());
-            Log.v("[i + 1]: ", "" + data[i + 1].currentCondition.getTemperature());
+            //Log.v("[i]: ", "" + data[i].currentCondition.getTemperature());
+            //Log.v("[i + 1]: ", "" + data[i + 1].currentCondition.getTemperature());
             if (data[i].currentCondition.getTemperature() > data[i + 1].currentCondition.getTemperature()){
                 maxTemp = data[i].currentCondition.getTemperature();
             } else {

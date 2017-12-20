@@ -38,10 +38,12 @@ public class HTTPClient {
     }
 
     public String getDarkSkyWeatherData(String place) throws MalformedURLException {
+        Log.v("QQQQQQQQQQQQQQQQQQQQQQQQQ::: ", Utils.DARKSKY_BASE_URL +  Utils.DARKSKY_API + place);
             return getData(new URL(Utils.DARKSKY_BASE_URL +  Utils.DARKSKY_API + place));
     }
 
     public String getWUWeatherCurrentData(String place) throws MalformedURLException {
+        Log.v("QQQQQQQQQQQQQQQQQQQQQQQQQ::: ", Utils.WU_BASE_URL_CURR + place + ".json");
         return getData(new URL(Utils.WU_BASE_URL_CURR + place + ".json"));
     }
 
@@ -50,14 +52,12 @@ public class HTTPClient {
     }
 
     public String getNOAAWeatherCurrentData(String place) throws MalformedURLException {
-        Log.v("QQQQQQQQQQQQQQQQQQQQQQQQQ::: ", Utils.NOAA_BASE_URL + place + Utils.NOAA_BASE_URL_CURR);
-
+        //Log.v("QQQQQQQQQQQQQQQQQQQQQQQQQ::: ", Utils.NOAA_BASE_URL + place + Utils.NOAA_BASE_URL_CURR);
         return getData(new URL(Utils.NOAA_BASE_URL + place + Utils.NOAA_BASE_URL_CURR));
     }
 
     public String getNOAAWeatherHourlyData(String place) throws MalformedURLException {
-        Log.v("QQQQQQQQQQQQQQQQQQQQQQQQQ::: ", Utils.NOAA_BASE_URL + place + Utils.NOAA_BASE_URL_HOURLY);
-
+        //Log.v("QQQQQQQQQQQQQQQQQQQQQQQQQ::: ", Utils.NOAA_BASE_URL + place + Utils.NOAA_BASE_URL_HOURLY);
         return getData(new URL(Utils.NOAA_BASE_URL + place + Utils.NOAA_BASE_URL_HOURLY));
     }
 
