@@ -1,5 +1,7 @@
 package data;
 
+import android.util.Log;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -55,33 +57,33 @@ public class Aggregator {
         Weather weather = new Weather();
         ArrayList<Hourly> obj = new ArrayList<Hourly>();
 
-        double maxTemp = 0;
+        Log.v("[0]: ", "" + data[0].currentCondition.getTemperature());
+        Log.v("[1]: ", "" + data[1].currentCondition.getTemperature());
+        Log.v("[2]: ", "" + data[2].currentCondition.getTemperature());
+        Log.v("[3]: ", "" + data[3].currentCondition.getTemperature());
+
+        double maxTemp = data[0].currentCondition.getTemperature();
         for (int i = 0; i < data.length - 1; i++) {
-            //Log.v("[i]: ", "" + data[i].currentCondition.getTemperature());
-            //Log.v("[i + 1]: ", "" + data[i + 1].currentCondition.getTemperature());
-            if (data[i].currentCondition.getTemperature() > data[i + 1].currentCondition.getTemperature()){
-                maxTemp = data[i].currentCondition.getTemperature();
-            } else {
+            if (data[i].currentCondition.getTemperature() < data[i + 1].currentCondition.getTemperature()
+                    && maxTemp < data[i + 1].currentCondition.getTemperature()){
                 maxTemp = data[i + 1].currentCondition.getTemperature();
             }
         }
         weather.currentCondition.setTemperature(maxTemp);
 
-        double maxPrecipitation = 0;
+        double maxPrecipitation = data[0].currentCondition.getPercipitation();
         for (int i = 0; i < data.length - 2; i++) {
-            if (data[i].currentCondition.getPercipitation() > data[i + 1].currentCondition.getPercipitation()){
-                maxPrecipitation = data[i].currentCondition.getPercipitation();
-            } else {
+            if (data[i].currentCondition.getPercipitation() < data[i + 1].currentCondition.getPercipitation()
+                    && maxPrecipitation < data[i + 1].currentCondition.getPercipitation()){
                 maxPrecipitation = data[i + 1].currentCondition.getPercipitation();
             }
         }
         weather.currentCondition.setPercipitation(maxPrecipitation);
 
-        double maxWind = 0;
+        double maxWind = data[0].currentCondition.getWindSpeed();
         for (int i = 0; i < data.length -1; i++) {
-            if (data[i].currentCondition.getWindSpeed() > data[i + 1].currentCondition.getWindSpeed()){
-                maxWind = data[i].currentCondition.getWindSpeed();
-            } else {
+            if (data[i].currentCondition.getWindSpeed() < data[i + 1].currentCondition.getWindSpeed()
+                    && maxWind < data[i + 1].currentCondition.getWindSpeed()){
                 maxWind = data[i + 1].currentCondition.getWindSpeed();
             }
         }
@@ -127,31 +129,28 @@ public class Aggregator {
         Weather weather = new Weather();
         ArrayList<Hourly> obj = new ArrayList<Hourly>();
 
-        double minTemp = 0;
+        double minTemp = data[0].currentCondition.getTemperature();
         for (int i = 0; i < data.length - 1; i++) {
-            if (data[i].currentCondition.getTemperature() < data[i + 1].currentCondition.getTemperature()){
-                minTemp = data[i].currentCondition.getTemperature();
-            } else {
+            if (data[i].currentCondition.getTemperature() > data[i + 1].currentCondition.getTemperature()
+                    && minTemp > data[i + 1].currentCondition.getTemperature()){
                 minTemp = data[i + 1].currentCondition.getTemperature();
             }
         }
         weather.currentCondition.setTemperature(minTemp);
 
-        double minPrecipitation = 0;
+        double minPrecipitation = data[0].currentCondition.getPercipitation();
         for (int i = 0; i < data.length - 2; i++) {
-            if (data[i].currentCondition.getPercipitation() < data[i + 1].currentCondition.getPercipitation()){
-                minPrecipitation = data[i].currentCondition.getPercipitation();
-            } else {
+            if (data[i].currentCondition.getPercipitation() > data[i + 1].currentCondition.getPercipitation()
+                    && minPrecipitation > data[i + 1].currentCondition.getPercipitation()){
                 minPrecipitation = data[i + 1].currentCondition.getPercipitation();
             }
         }
         weather.currentCondition.setPercipitation(minPrecipitation);
 
-        double minWind = 0;
+        double minWind = data[0].currentCondition.getWindSpeed();
         for (int i = 0; i < data.length - 1; i++) {
-            if (data[i].currentCondition.getWindSpeed() < data[i + 1].currentCondition.getWindSpeed()){
-                minWind = data[i].currentCondition.getWindSpeed();
-            } else {
+            if (data[i].currentCondition.getWindSpeed() > data[i + 1].currentCondition.getWindSpeed()
+                    && minWind > data[i + 1].currentCondition.getWindSpeed()){
                 minWind = data[i + 1].currentCondition.getWindSpeed();
             }
         }

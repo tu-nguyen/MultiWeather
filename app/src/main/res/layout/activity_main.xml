@@ -63,9 +63,9 @@
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/locationText"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="14dp"
+            android:layout_alignStart="@+id/precipitationTitleText"
+            android:layout_marginTop="16dp"
             android:text="Aggregated Data: "
             android:textColor="@android:color/white"
             android:textSize="24sp" />
@@ -190,9 +190,8 @@
             android:id="@+id/modeView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/titleText"
-            android:layout_alignBottom="@+id/titleText"
-            android:layout_toEndOf="@+id/titleText"
+            android:layout_above="@+id/locationText"
+            android:layout_alignEnd="@+id/precipitationText"
             android:text="TextView"
             android:textColor="@android:color/white"
             android:textSize="24sp" />
