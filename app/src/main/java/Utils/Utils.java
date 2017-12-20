@@ -11,7 +11,9 @@ public class Utils {
     public static final String ACCU_LOCATION_CITY_BASE_URL = "http://dataservice.accuweather.com/locations/v1/search";
 
     //public static final String ACCU_API = "?apikey=M0oSkwlU0CRh1FLdL2prvLLF3qlhXV7L";
-    public static final String ACCU_API = "?apikey=zxKSv2TAkC9nAFqctOGy9xvwbGFloTeZ";
+    //public static final String ACCU_API = "?apikey=zxKSv2TAkC9nAFqctOGy9xvwbGFloTeZ";
+    public static final String ACCU_API = "?apikey=Zj57b0q6fadJyOP3ufLV9wugf568Z1Ae";
+
 
     // DarkSky
     public static final String DARKSKY_BASE_URL = "https://api.darksky.net/forecast/";

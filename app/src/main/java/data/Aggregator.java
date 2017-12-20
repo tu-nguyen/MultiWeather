@@ -1,5 +1,8 @@
 package data;
 
+import android.util.Log;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import model.Hourly;
@@ -10,6 +13,7 @@ import model.Weather;
  */
 
 public class Aggregator {
+    private static DecimalFormat df2 = new DecimalFormat(".##");
 
     public static Weather getMean (Weather[] data) {
         Weather weather = new Weather();
@@ -55,6 +59,8 @@ public class Aggregator {
 
         double maxTemp = 0;
         for (int i = 0; i < data.length - 1; i++) {
+            Log.v("[i]: ", "" + data[i].currentCondition.getTemperature());
+            Log.v("[i + 1]: ", "" + data[i + 1].currentCondition.getTemperature());
             if (data[i].currentCondition.getTemperature() > data[i + 1].currentCondition.getTemperature()){
                 maxTemp = data[i].currentCondition.getTemperature();
             } else {
@@ -71,7 +77,7 @@ public class Aggregator {
                 maxPrecipitation = data[i + 1].currentCondition.getPercipitation();
             }
         }
-        weather.currentCondition.setTemperature(maxPrecipitation);
+        weather.currentCondition.setPercipitation(maxPrecipitation);
 
         double maxWind = 0;
         for (int i = 0; i < data.length -1; i++) {
@@ -81,7 +87,7 @@ public class Aggregator {
                 maxWind = data[i + 1].currentCondition.getWindSpeed();
             }
         }
-        weather.currentCondition.setTemperature(maxWind);
+        weather.currentCondition.setWindSpeed(maxWind);
 
         for (int i = 0; i < 12; i++) {
             Hourly hourly = new Hourly();
@@ -141,7 +147,7 @@ public class Aggregator {
                 minPrecipitation = data[i + 1].currentCondition.getPercipitation();
             }
         }
-        weather.currentCondition.setTemperature(minPrecipitation);
+        weather.currentCondition.setPercipitation(minPrecipitation);
 
         double minWind = 0;
         for (int i = 0; i < data.length - 1; i++) {
@@ -151,7 +157,7 @@ public class Aggregator {
                 minWind = data[i + 1].currentCondition.getWindSpeed();
             }
         }
-        weather.currentCondition.setTemperature(minWind);
+        weather.currentCondition.setWindSpeed(minWind);
 
         for (int i = 0; i < 12; i++) {
             Hourly hourly = new Hourly();

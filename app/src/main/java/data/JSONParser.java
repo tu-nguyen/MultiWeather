@@ -8,10 +8,11 @@ import java.util.ArrayList;
 
 import model.CurrentCondition;
 import model.Hourly;
-import model.uPlace;
 import model.Weather;
+import model.uPlace;
 
 public class JSONParser {
+
     public static uPlace getLocationGeo(String data) {
         uPlace uPlace = new uPlace();
 

@@ -13,6 +13,7 @@ import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 
 import java.net.MalformedURLException;
+import java.text.DecimalFormat;
 import java.util.concurrent.ExecutionException;
 
 import data.GPSTracker;
@@ -26,7 +27,7 @@ import static data.Aggregator.getMean;
 import static data.Aggregator.getMin;
 
 
-public class MainActivity extends AppCompatActivity implements AggregatedFragment.OnFragmentInteractionListener, SplitFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity {
     float lat;
     float lon;
     int zip;
@@ -38,12 +39,20 @@ public class MainActivity extends AppCompatActivity implements AggregatedFragmen
     Weather maxWeather = new Weather();
     Weather minWeather = new Weather();
 
+    DecimalFormat f = new DecimalFormat("#0.00");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final TextView textView = (TextView)findViewById(R.id.textView);
+        final TextView titleText = findViewById(R.id.titleText);
+        final TextView tempText = findViewById(R.id.tempText);
+        final TextView locationText = findViewById(R.id.locationText);
+        final TextView precipitationTitleText = findViewById(R.id.precipitationTitleText);
+        final TextView precipitationText = findViewById(R.id.precipitationText);
+        final TextView windSpeedTitle = findViewById(R.id.windSpeedTitleText);
+        final TextView windSpeed = findViewById(R.id.windSpeedText);
 
         GPSTracker g = new GPSTracker(getApplicationContext());
         Location location = g.getLocation();
@@ -67,11 +76,17 @@ public class MainActivity extends AppCompatActivity implements AggregatedFragmen
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        
+
         meanWeather = getMean(weather);
         maxWeather = getMax(weather);
         minWeather = getMin(weather);
 
+        locationText.setText(uPlace.getCity() + ", " + uPlace.getState());
+        tempText.setText(f.format(meanWeather.currentCondition.getTemperature()));
+        precipitationText.setText(f.format(meanWeather.currentCondition.getPercipitation()));
+        windSpeed.setText(f.format(meanWeather.currentCondition.getWindSpeed()));
+
+        /*
         textView.setText("");
         textView.append("AccuWeather Temp: " + weather[0].currentCondition.getTemperature() + "\n");
         textView.append("AccuWeather Pop: " + weather[0].currentCondition.getPercipitation() + "\n");
@@ -91,12 +106,15 @@ public class MainActivity extends AppCompatActivity implements AggregatedFragmen
         textView.append("Mean Temp: " + meanWeather.currentCondition.getTemperature() + "\n");
         textView.append("Mean Pop: " + meanWeather.currentCondition.getPercipitation() + "\n");
         textView.append("Mean Wind: " + meanWeather.currentCondition.getWindSpeed() + "\n");
+        textView.append("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
         textView.append("Max Temp: " + maxWeather.currentCondition.getTemperature() + "\n");
         textView.append("Max Pop: " + maxWeather.currentCondition.getPercipitation() + "\n");
         textView.append("Max Wind: " + maxWeather.currentCondition.getWindSpeed() + "\n");
+        textView.append("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
         textView.append("Min Temp: " + minWeather.currentCondition.getTemperature() + "\n");
         textView.append("Min Pop: " + minWeather.currentCondition.getPercipitation() + "\n");
         textView.append("Min Wind: " + minWeather.currentCondition.getWindSpeed() + "\n");
+        */
 
 
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
@@ -117,6 +135,11 @@ public class MainActivity extends AppCompatActivity implements AggregatedFragmen
                     e.printStackTrace();
                 }
 
+                locationText.setText(uPlace.getCity() + ", " + uPlace.getState());
+                tempText.setText(f.format(meanWeather.currentCondition.getTemperature()));
+                precipitationText.setText(f.format(meanWeather.currentCondition.getPercipitation()));
+                windSpeed.setText(f.format(meanWeather.currentCondition.getWindSpeed()));
+
             }
             @Override
             public void onError(Status status) {
@@ -133,11 +156,6 @@ public class MainActivity extends AppCompatActivity implements AggregatedFragmen
         // Complete the changes added above
         ft.commit();
         */
-
-    }
-
-    @Override
-    public void onFragmentInteraction(Weather[] weather) {
 
     }
 
@@ -288,6 +306,8 @@ public class MainActivity extends AppCompatActivity implements AggregatedFragmen
         @Override
         protected void onPostExecute(Weather[] weather) {
             super.onPostExecute(weather);
+
+
         }
     }
 }

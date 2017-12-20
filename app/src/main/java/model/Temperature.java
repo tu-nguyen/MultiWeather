@@ -5,6 +5,7 @@ package model;
  */
 
 public class Temperature {
+
     private double temp;
 
     public double getTemp() {
