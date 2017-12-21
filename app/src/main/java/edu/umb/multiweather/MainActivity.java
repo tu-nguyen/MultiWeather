@@ -370,8 +370,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Weather[] weather) {
             super.onPostExecute(weather);
-
-            //updateData(weather);
         }
     }
 

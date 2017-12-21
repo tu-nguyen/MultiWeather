@@ -102,8 +102,6 @@ public class AggregateHourlyActivity extends AppCompatActivity {
 
         updateHourly();
         ButterKnife.bind(this);
-
-
     }
 
     private void updateHourly() {
@@ -111,7 +109,7 @@ public class AggregateHourlyActivity extends AppCompatActivity {
         if (mode == MEAN) {
             modeText.setText("Aggregated Data:  Mean");
             for (int i = 0; i < 12; i++) {
-                test.append("   " + hours[i] + "\n");
+                test.append(" " + hours[i] + "\n");
                 test.append(" Temperature: " + f.format(temp[0][i])  + DEGREE + "F\n");
                 test.append(" Pop: " + f.format(pop[0][i])  + "%");
                 test.append(" Wind Speed: " + f.format(wind[0][i]) + "mph" + "\n\n");
@@ -119,6 +117,7 @@ public class AggregateHourlyActivity extends AppCompatActivity {
         } else if (mode == MAX) {
             modeText.setText("Aggregated Data:  Max  ");
             for (int i = 0; i < 12; i++) {
+                test.append(" " + hours[i] + "\n");
                 test.append(" Temperature: " + f.format(temp[1][i])  + DEGREE + "F\n");
                 test.append(" Pop: " + f.format(pop[1][i])  + "%");
                 test.append(" Wind Speed: " + f.format(wind[1][i]) + "mph" + "\n\n");
@@ -126,6 +125,7 @@ public class AggregateHourlyActivity extends AppCompatActivity {
         } else if (mode == MIN) {
             modeText.setText("Aggregated Data:  Min  ");
             for (int i = 0; i < 12; i++) {
+                test.append(" " + hours[i] + "\n");
                 test.append(" Temperature: " + f.format(temp[2][i])  + DEGREE + "F\n");
                 test.append(" Pop: " + f.format(pop[2][i])  + "%");
                 test.append(" Wind Speed: " + f.format(wind[2][i]) + "mph" + "\n\n");
