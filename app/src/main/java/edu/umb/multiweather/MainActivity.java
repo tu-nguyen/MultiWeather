@@ -131,8 +131,6 @@ public class MainActivity extends AppCompatActivity {
             lon = (float) location.getLongitude();
         }
 
-        /*
-
         try {
             getLocationDataGeo(lat, lon);
         } catch (ExecutionException e) {
@@ -141,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        */
+       /*
         uPlace.setLat((float) 42.3601);
         uPlace.setLon((float) -71.0589);
         uPlace.setCity("Boston");
@@ -150,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
         uPlace.setStateSymbol("MA");
         uPlace.setZip(String.valueOf(02122));
         uPlace.setCode(String.valueOf(000000));
+        */
 
         try {
             renderWeatherData(uPlace);
@@ -168,12 +167,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPlaceSelected(Place place) {
                 // TODO: Get info about the selected uPlace.
-                Log.i("test", "uPlace: " + place.getName());
+                //Log.i("test", "uPlace: " + place.getName());
                 city = (String) place.getName();
 
                 uPlace.setLat((float) place.getLatLng().latitude);
                 uPlace.setLon((float) place.getLatLng().longitude);
                 uPlace.setCity((String) ((String) place.getName()).replaceAll(" ", ""));
+                /*
                 String[] temp = place.getAddress().toString().split(", ");
                 Log.v("QQQQQQQQQQQQQQQQq::: ", place.getAddress().toString());
                 uPlace.setCountry(temp[2]);
@@ -181,8 +181,8 @@ public class MainActivity extends AppCompatActivity {
                 uPlace.setStateSymbol(temp[2]);
                 uPlace.setZip(String.valueOf(02122));
                 uPlace.setCode(String.valueOf(000000));
+                */
 
-                /*
                 try {
                     getLocationDataCity(city);
                 } catch (ExecutionException e) {
@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                */
+
                 try {
                     renderWeatherData(uPlace);
                 } catch (ExecutionException e) {
@@ -311,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
             String wuString = "/" + o.getStateSymbol() + "/" + o.getCity();
             String noaaString = o.getLat() + "," + o.getLon();
 
-            /*
+
             String AccuDataCurrent = null;
             try {
                 AccuDataCurrent = ((new HTTPClient()).getAccuWeatherCurrentData((accuString)));
@@ -324,7 +324,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-            */
+
             String DarkSkyData = null;
             try {
                 DarkSkyData = ((new HTTPClient()).getDarkSkyWeatherData(darkskyString));
@@ -357,12 +357,12 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            //weather[0] = JSONParser.getAccuWeather(AccuDataCurrent, AccuDataHourly12);
+            weather[0] = JSONParser.getAccuWeather(AccuDataCurrent, AccuDataHourly12);
             // Cause accuWeather sets stupid 50 limit smfh
             weather[1] = JSONParser.getDarkSkyWeather(DarkSkyData);
             weather[2] = JSONParser.getWUWeather(WUDataCurrent, WUDataHourly);
             weather[3] = JSONParser.getNOAAWeather(NOAADataCurrent, NOAADataHourly);
-            weather[0] = JSONParser.getDarkSkyWeather(DarkSkyData);;
+            //weather[0] = JSONParser.getDarkSkyWeather(DarkSkyData);;
 
             return weather;
         }

@@ -1,7 +1,5 @@
 package data;
 
-import android.util.Log;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,12 +36,12 @@ public class HTTPClient {
     }
 
     public String getDarkSkyWeatherData(String place) throws MalformedURLException {
-        Log.v("QQQQQQQQQQQQQQQQQQQQQQQQQ::: ", Utils.DARKSKY_BASE_URL +  Utils.DARKSKY_API + place);
+        //Log.v("QQQQQQQQQQQQQQQQQQQQQQQQQ::: ", Utils.DARKSKY_BASE_URL +  Utils.DARKSKY_API + place);
             return getData(new URL(Utils.DARKSKY_BASE_URL +  Utils.DARKSKY_API + place));
     }
 
     public String getWUWeatherCurrentData(String place) throws MalformedURLException {
-        Log.v("QQQQQQQQQQQQQQQQQQQQQQQQQ::: ", Utils.WU_BASE_URL_CURR + place + ".json");
+        //Log.v("QQQQQQQQQQQQQQQQQQQQQQQQQ::: ", Utils.WU_BASE_URL_CURR + place + ".json");
         return getData(new URL(Utils.WU_BASE_URL_CURR + place + ".json"));
     }
 
