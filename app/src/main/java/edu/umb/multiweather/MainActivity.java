@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private float lon;
     private int zip;
     private String city;
+    private int startTimeHourly;
 
     private uPlace uPlace = new uPlace();
     private Weather weather[] = new Weather[4];
@@ -375,6 +376,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateData(Weather[] weather) {
+        startTimeHourly = weather[2].hourly.get(0).getTime();
+
         meanWeather = getMean(weather);
         maxWeather = getMax(weather);
         minWeather = getMin(weather);
@@ -415,7 +418,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AggregateHourlyActivity.class);
         //intent.putExtra(COMPARE_TEMPS, temps);
 
-        for (int i = 0; i <12; i++) {
+        intent.putExtra("startTime", startTimeHourly);
+
+        for (int i = 0; i < 12; i++) {
             intent.putExtra("meanTemp" + i, aggregatedWeather[0].hourly.get(i).getTemperature());
             intent.putExtra("meanPop" + i, aggregatedWeather[0].hourly.get(i).getPercipitation());
             intent.putExtra("meanWind" + i, aggregatedWeather[0].hourly.get(i).getWind());

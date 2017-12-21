@@ -1,14 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.umb.multiweather.AggregateHourlyActivity">
+    tools:context="edu.umb.multiweather.AggregateHourlyActivity"
+    android:background="@color/cardview_dark_background">
 
     <TextView
-        android:id="@+id/test"
+        android:id="@+id/modeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Aggregated Data:  Mode"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:layout_above="@+id/Buttons"
+        android:layout_below="@+id/modeText">
+
+        <TextView
+            android:id="@+id/test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+    </android.support.v4.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/Buttons"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
-</ScrollView>
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mean"
+            android:id="@+id/meanButton"
+            android:layout_weight="1"
+            android:background="#40ffffff"
+            android:textColor="#ffffffff"/>
+
+        <Button
+            android:id="@+id/maxButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_weight="1"
+            android:background="#40ffffff"
+            android:text="Max"
+            android:textColor="#ffffffff" />
+
+        <Button
+            android:id="@+id/minButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_weight="1"
+            android:background="#40ffffff"
+            android:text="Min"
+            android:textColor="#ffffffff" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>
