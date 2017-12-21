@@ -1,7 +1,5 @@
 package data;
 
-import android.util.Log;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -57,10 +55,10 @@ public class Aggregator {
         Weather weather = new Weather();
         ArrayList<Hourly> obj = new ArrayList<Hourly>();
 
-        Log.v("[0]: ", "" + data[0].currentCondition.getTemperature());
-        Log.v("[1]: ", "" + data[1].currentCondition.getTemperature());
-        Log.v("[2]: ", "" + data[2].currentCondition.getTemperature());
-        Log.v("[3]: ", "" + data[3].currentCondition.getTemperature());
+        //Log.v("[0]: ", "" + data[0].currentCondition.getTemperature());
+        //Log.v("[1]: ", "" + data[1].currentCondition.getTemperature());
+        //Log.v("[2]: ", "" + data[2].currentCondition.getTemperature());
+        //Log.v("[3]: ", "" + data[3].currentCondition.getTemperature());
 
         double maxTemp = data[0].currentCondition.getTemperature();
         for (int i = 0; i < data.length - 1; i++) {

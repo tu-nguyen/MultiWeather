@@ -1,5 +1,6 @@
 package edu.umb.multiweather;
 
+import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,6 +19,8 @@ import java.net.MalformedURLException;
 import java.text.DecimalFormat;
 import java.util.concurrent.ExecutionException;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import data.GPSTracker;
 import data.HTTPClient;
 import data.JSONParser;
@@ -30,6 +33,11 @@ import static data.Aggregator.getMin;
 
 
 public class MainActivity extends AppCompatActivity {
+    public static final String TAG = MainActivity.class.getSimpleName();
+    public static final String AGGREGATED_HOURLY = "AGGREGATED_HOURLY";
+    public static final String COMPARE_CURRENT = "CURRENT_FORECAST";
+    public static final String COMPARE_HOURLY = "HOURLY_FORECAST";
+
     final String DEGREE  = "\u00b0";
     final int MEAN = 0;
     final int MAX = 1;
@@ -42,19 +50,19 @@ public class MainActivity extends AppCompatActivity {
 
     private uPlace uPlace = new uPlace();
     private Weather weather[] = new Weather[4];
+    private Weather aggregatedWeather[] = new Weather[3];
     private Weather meanWeather = new Weather();
     private Weather maxWeather = new Weather();
     private Weather minWeather = new Weather();
 
     DecimalFormat f = new DecimalFormat("#0.00");
-    private TextView titleText;
+    private TextView modeText;
     private TextView tempText;
     private TextView locationText;
     private TextView precipitationTitleText ;
     private TextView precipitationText;
     private TextView windSpeedTitle;
     private TextView windSpeed;
-    private TextView modeText;
 
     private Button hourlyAggregated;
     private Button compareCurrent;
@@ -73,14 +81,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        titleText = findViewById(R.id.titleText);
+        ButterKnife.bind(this);
+
+        modeText = findViewById(R.id.modeText);
         tempText = findViewById(R.id.tempText);
         locationText = findViewById(R.id.locationText);
         precipitationTitleText = findViewById(R.id.precipitationTitleText);
         precipitationText = findViewById(R.id.precipitationText);
         windSpeedTitle = findViewById(R.id.windSpeedTitleText);
         windSpeed = findViewById(R.id.windSpeedText);
-        modeText = findViewById(R.id.modeView);
 
         hourlyAggregated = findViewById(R.id.hourlyAggregatedButton);
         compareCurrent = findViewById(R.id.compareCurrentButton);
@@ -149,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        updateData(this.weather);
+        updateData(weather);
 
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
@@ -370,22 +379,26 @@ public class MainActivity extends AppCompatActivity {
         maxWeather = getMax(weather);
         minWeather = getMin(weather);
 
+        aggregatedWeather[0] = meanWeather;
+        aggregatedWeather[1] = maxWeather;
+        aggregatedWeather[2] = minWeather;
+
         if (mode == MEAN) {
-            modeText.setText("Mean");
+            modeText.setText("Aggregated Data:  Mean");
             locationText.setText(uPlace.getCity() + ", " + uPlace.getState());
             tempText.setText(f.format(meanWeather.currentCondition.getTemperature()) + DEGREE + "F");
             precipitationText.setText(f.format(meanWeather.currentCondition.getPercipitation()) + "%");
             windSpeed.setText(f.format(meanWeather.currentCondition.getWindSpeed()) + "mph");
             alertText.setText(weather[1].currentCondition.getAlert());
         } else if (mode == MAX) {
-            modeText.setText("Max ");
+            modeText.setText("Aggregated Data:  Max  ");
             locationText.setText(uPlace.getCity() + ", " + uPlace.getState());
             tempText.setText(f.format(maxWeather.currentCondition.getTemperature()) + DEGREE + "F");
             precipitationText.setText(f.format(maxWeather.currentCondition.getPercipitation()) + "%");
             windSpeed.setText(f.format(maxWeather.currentCondition.getWindSpeed()) + "mph");
             alertText.setText(weather[1].currentCondition.getAlert());
         } else if (mode == MIN) {
-            modeText.setText("Min ");
+            modeText.setText("Aggregated Data:  Min  ");
             locationText.setText(uPlace.getCity() + ", " + uPlace.getState());
             tempText.setText(f.format(minWeather.currentCondition.getTemperature()) + DEGREE + "F");
             precipitationText.setText(f.format(minWeather.currentCondition.getPercipitation()) + "%");
@@ -395,4 +408,58 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
+    @OnClick(R.id.hourlyAggregatedButton)
+    public void startDailyActivity(View view){
+        Intent intent = new Intent(this, AggregateHourlyActivity.class);
+        //intent.putExtra(COMPARE_TEMPS, temps);
+
+        for (int i = 0; i <12; i++) {
+            intent.putExtra("meanTemp" + i, aggregatedWeather[0].hourly.get(i).getTemperature());
+            intent.putExtra("meanPop" + i, aggregatedWeather[0].hourly.get(i).getPercipitation());
+            intent.putExtra("meanWind" + i, aggregatedWeather[0].hourly.get(i).getWind());
+            intent.putExtra("maxTemp" + i, aggregatedWeather[1].hourly.get(i).getTemperature());
+            intent.putExtra("maxPop" + i, aggregatedWeather[1].hourly.get(i).getPercipitation());
+            intent.putExtra("maxWind" + i, aggregatedWeather[1].hourly.get(i).getWind());
+            intent.putExtra("minTemp" + i, aggregatedWeather[2].hourly.get(i).getTemperature());
+            intent.putExtra("minPop" + i, aggregatedWeather[2].hourly.get(i).getPercipitation());
+            intent.putExtra("minWind" + i, aggregatedWeather[2].hourly.get(i).getWind());
+        }
+        startActivity(intent);
+    }
+
+
+    @OnClick(R.id.compareCurrentButton)
+    public void startCompareCurrentActivity(View view){
+        Intent intent = new Intent(this, CompareCurrentActivity.class);
+        //Bundle bundle = new Bundle();
+        //bundle.putParcelableArray(COMPARE_CURRENT, aggregatedWeather);
+
+        intent.putExtra("0temp", weather[0].currentCondition.getTemperature());
+        intent.putExtra("0pop", weather[0].currentCondition.getPercipitation());
+        intent.putExtra("0wind", weather[0].currentCondition.getWindSpeed());
+
+        intent.putExtra("1temp", weather[1].currentCondition.getTemperature());
+        intent.putExtra("1pop", weather[1].currentCondition.getPercipitation());
+        intent.putExtra("1wind", weather[1].currentCondition.getWindSpeed());
+
+        intent.putExtra("2temp", weather[2].currentCondition.getTemperature());
+        intent.putExtra("2pop", weather[2].currentCondition.getPercipitation());
+        intent.putExtra("2wind", weather[2].currentCondition.getWindSpeed());
+
+        intent.putExtra("3temp", weather[3].currentCondition.getTemperature());
+        intent.putExtra("3pop", weather[3].currentCondition.getPercipitation());
+        intent.putExtra("3wind", weather[3].currentCondition.getWindSpeed());
+
+        startActivity(intent);
+    }
+
+    /*
+    @OnClick(R.id.comareHourlyButton)
+    public void startHourlyActivity(View view){
+        Intent intent = new Intent(this, HourlyForecastActivity.class);
+        intent.putExtra(HOURLY_FORECAST, mForecast.getHourlyForecast());
+        startActivity(intent);
+    }*/
 }

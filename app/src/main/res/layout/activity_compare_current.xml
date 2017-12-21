@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.umb.multiweather.CompareCurrentActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/cardview_dark_background">
+
+        <TextView
+            android:id="@+id/modeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="18dp"
+            android:text="Compare Data: Current"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/temp0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/modeText"
+            android:layout_marginStart="47dp"
+            android:layout_marginTop="69dp"
+            android:text="- -"
+            android:textColor="@android:color/white"
+            android:textSize="42sp" />
+
+        <TextView
+            android:id="@+id/temp1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/temp0"
+            android:layout_below="@+id/temp0"
+            android:layout_marginTop="69dp"
+            android:text="- -"
+            android:textColor="@android:color/white"
+            android:textSize="42sp" />
+
+        <TextView
+            android:id="@+id/temp2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/temp1"
+            android:layout_below="@+id/temp1"
+            android:layout_marginTop="69dp"
+            android:text="- -"
+            android:textColor="@android:color/white"
+            android:textSize="42sp" />
+
+        <TextView
+            android:id="@+id/temp3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/temp2"
+            android:layout_below="@+id/temp2"
+            android:layout_marginTop="69dp"
+            android:text="- -"
+            android:textColor="@android:color/white"
+            android:textSize="42sp" />
+
+        <TextView
+            android:id="@+id/pop0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/temp0"
+            android:layout_toEndOf="@+id/modeText"
+            android:text="- -"
+            android:textColor="@android:color/white"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/wind0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/temp0"
+            android:layout_alignEnd="@+id/pop0"
+            android:text="- -"
+            android:textColor="@android:color/white"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/pop1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/wind0"
+            android:layout_alignTop="@+id/temp1"
+            android:text="- -"
+            android:textColor="@android:color/white"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/wind1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/temp2"
+            android:layout_alignEnd="@+id/pop1"
+            android:text="- -"
+            android:textColor="@android:color/white"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/pop2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/wind1"
+            android:layout_alignTop="@+id/temp2"
+            android:text="- -"
+            android:textColor="@android:color/white"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/wind2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/pop2"
+            android:layout_below="@+id/pop2"
+            android:text="- -"
+            android:textColor="@android:color/white"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/pop3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/wind2"
+            android:layout_alignTop="@+id/temp3"
+            android:text="- -"
+            android:textColor="@android:color/white"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/wind3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/pop3"
+            android:layout_below="@+id/pop3"
+            android:text="- -"
+            android:textColor="@android:color/white"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/provTitle0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/pop0"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
+            android:text="AccuWeather"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/provTitle1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/pop1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
+            android:text="DarkSky"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/provTitle2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/pop2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
+            android:text="Weather Underground"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/provTitle3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/pop3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
+            android:text="NOAA"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+    </RelativeLayout>
+
+</LinearLayout>

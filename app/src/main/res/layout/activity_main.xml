@@ -20,7 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:background="@color/cardview_dark_background">
 
         <Button
             android:layout_width="match_parent"
@@ -60,13 +61,13 @@
         android:background="@color/cardview_dark_background">
 
         <TextView
-            android:id="@+id/titleText"
+            android:id="@+id/modeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/precipitationTitleText"
-            android:layout_marginTop="16dp"
-            android:text="Aggregated Data: "
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="Aggregated Data:  Mode"
             android:textColor="@android:color/white"
             android:textSize="24sp" />
 
@@ -85,7 +86,7 @@
             android:id="@+id/locationText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/titleText"
+            android:layout_below="@+id/modeText"
             android:layout_centerHorizontal="true"
             android:text="location"
             android:textColor="@android:color/white"
@@ -183,16 +184,6 @@
             android:layout_below="@+id/windSpeedTitleText"
             android:layout_marginTop="57dp"
             android:text="Alerts"
-            android:textColor="@android:color/white"
-            android:textSize="24sp" />
-
-        <TextView
-            android:id="@+id/modeView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/locationText"
-            android:layout_alignEnd="@+id/precipitationText"
-            android:text="TextView"
             android:textColor="@android:color/white"
             android:textSize="24sp" />
 
