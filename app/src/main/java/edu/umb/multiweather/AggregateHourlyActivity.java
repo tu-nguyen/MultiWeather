@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 public class AggregateHourlyActivity extends AppCompatActivity {
 
     DecimalFormat f = new DecimalFormat("#0.00");
+    final String DEGREE  = "\u00b0";
     final int MEAN = 0;
     final int MAX = 1;
     final int MIN = 2;
@@ -24,10 +25,16 @@ public class AggregateHourlyActivity extends AppCompatActivity {
     private int mode = 0;
 
     private TextView test;
+    private TextView modeText;
 
     private Button meanButton;
     private Button maxButton;
     private Button minButton;
+    private String[] hours = new String[12];
+
+    double[][] temp = new double[3][12];
+    double[][] pop = new double[3][12];
+    double[][] wind = new double[3][12];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +42,7 @@ public class AggregateHourlyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_aggregate_hourly);
 
         test = findViewById(R.id.test);
+        modeText = findViewById(R.id.modeText);
 
         meanButton = findViewById(R.id.meanButton);
         maxButton = findViewById(R.id.maxButton);
@@ -68,7 +76,6 @@ public class AggregateHourlyActivity extends AppCompatActivity {
         DateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         String formatted = format.format(date);
 
-        String[] hours = new String[12];
         hours[0] = formatted;
         //test.setText(formatted + "\n");
 
@@ -78,11 +85,6 @@ public class AggregateHourlyActivity extends AppCompatActivity {
             hours[i] = format.format(newDate);
             //test.append(hours[i] + "\n");
         }
-
-        double[][] temp = new double[3][12];
-        double[][] pop = new double[3][12];
-        double[][] wind = new double[3][12];
-
 
         for (int i = 0; i < 12; i++) {
             temp[0][i] = intent.getDoubleExtra("meanTemp" + i, 0);
@@ -105,12 +107,29 @@ public class AggregateHourlyActivity extends AppCompatActivity {
     }
 
     private void updateHourly() {
+        test.setText("");
         if (mode == MEAN) {
-            test.setText("MEAN");
+            modeText.setText("Aggregated Data:  Mean");
+            for (int i = 0; i < 12; i++) {
+                test.append("   " + hours[i] + "\n");
+                test.append(" Temperature: " + f.format(temp[0][i])  + DEGREE + "F\n");
+                test.append(" Pop: " + f.format(pop[0][i])  + "%");
+                test.append(" Wind Speed: " + f.format(wind[0][i]) + "mph" + "\n\n");
+            }
         } else if (mode == MAX) {
-            test.setText("MAX");
+            modeText.setText("Aggregated Data:  Max  ");
+            for (int i = 0; i < 12; i++) {
+                test.append(" Temperature: " + f.format(temp[1][i])  + DEGREE + "F\n");
+                test.append(" Pop: " + f.format(pop[1][i])  + "%");
+                test.append(" Wind Speed: " + f.format(wind[1][i]) + "mph" + "\n\n");
+            }
         } else if (mode == MIN) {
-            test.setText("MIN");
+            modeText.setText("Aggregated Data:  Min  ");
+            for (int i = 0; i < 12; i++) {
+                test.append(" Temperature: " + f.format(temp[2][i])  + DEGREE + "F\n");
+                test.append(" Pop: " + f.format(pop[2][i])  + "%");
+                test.append(" Wind Speed: " + f.format(wind[2][i]) + "mph" + "\n\n");
+            }
 
         }
     }
