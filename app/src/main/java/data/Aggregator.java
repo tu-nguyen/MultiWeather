@@ -174,7 +174,7 @@ public class Aggregator {
                 }
             }
             hourly.setPercipitation(minPrecipitation);
-            
+
             minWind = data[0].hourly.get(i).getWind();
             for (int j = 0; j < 4 - 1; j++) {
 

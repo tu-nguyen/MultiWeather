@@ -1,14 +1,18 @@
 package edu.umb.multiweather;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v13.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
@@ -124,41 +128,9 @@ public class MainActivity extends AppCompatActivity {
 
         alertText = findViewById(R.id.alertText);
 
-        GPSTracker g = new GPSTracker(getApplicationContext());
-        Location location = g.getLocation();
-        if (location != null){
-            lat = (float) location.getLatitude();
-            lon = (float) location.getLongitude();
-        }
-
-        try {
-            getLocationDataGeo(lat, lon);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-       /*
-        uPlace.setLat((float) 42.3601);
-        uPlace.setLon((float) -71.0589);
-        uPlace.setCity("Boston");
-        uPlace.setCountry("United States");
-        uPlace.setState("Massachusetts");
-        uPlace.setStateSymbol("MA");
-        uPlace.setZip(String.valueOf(02122));
-        uPlace.setCode(String.valueOf(000000));
-        */
-
-        try {
-            renderWeatherData(uPlace);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        updateData(weather);
+        ActivityCompat.requestPermissions(MainActivity.this,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                1);
 
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
@@ -465,4 +437,50 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(HOURLY_FORECAST, mForecast.getHourlyForecast());
         startActivity(intent);
     }*/
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    GPSTracker g = new GPSTracker(getApplicationContext());
+                    Location location = g.getLocation();
+                    if (location != null){
+                        lat = (float) location.getLatitude();
+                        lon = (float) location.getLongitude();
+                    }
+
+                    try {
+                        getLocationDataGeo(lat, lon);
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        renderWeatherData(uPlace);
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    updateData(weather);
+
+                } else {
+
+                    Toast.makeText(MainActivity.this, "Permission denied to read your External storage", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
 }

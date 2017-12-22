@@ -16,11 +16,13 @@ import android.widget.Toast;
 
 public class GPSTracker implements LocationListener {
     Context context;
+
     public GPSTracker(Context c) {
         context = c;
     }
 
     public Location getLocation(){
+
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(context, "Permission not granted", Toast.LENGTH_SHORT).show();
         }
