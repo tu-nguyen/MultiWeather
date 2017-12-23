@@ -138,22 +138,11 @@ public class MainActivity extends AppCompatActivity {
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected uPlace.
-                //Log.i("test", "uPlace: " + place.getName());
                 city = (String) place.getName();
 
                 uPlace.setLat((float) place.getLatLng().latitude);
                 uPlace.setLon((float) place.getLatLng().longitude);
                 uPlace.setCity((String) ((String) place.getName()).replaceAll(" ", ""));
-                /*
-                String[] temp = place.getAddress().toString().split(", ");
-                Log.v("QQQQQQQQQQQQQQQQq::: ", place.getAddress().toString());
-                uPlace.setCountry(temp[2]);
-                uPlace.setState(temp[0].replaceAll(" ", ""));
-                uPlace.setStateSymbol(temp[2]);
-                uPlace.setZip(String.valueOf(02122));
-                uPlace.setCode(String.valueOf(000000));
-                */
 
                 try {
                     getLocationDataCity(city);
@@ -179,16 +168,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("test", "An error occurred: " + status);
             }
         });
-        /*
-        // Begin the transaction
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        // Replace the contents of the container with the new fragment
-        ft.replace(R.id.fragment, new AggregatedFragment());
-        // or ft.add(R.id.your_placeholder, new FooFragment());
-        // Complete the changes added above
-        ft.commit();
-        */
-
     }
 
     public void getLocationDataGeo (double lat, double lon) throws ExecutionException, InterruptedException {

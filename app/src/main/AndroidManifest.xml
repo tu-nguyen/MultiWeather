@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDxtpwIVTTPNyjV-UAoE1MhtRH8ojxLOxs" />
+            android:value="ENTER GOOGLE PLACE API KEY HERE" />
 
         <activity android:name=".MainActivity">
             <intent-filter>

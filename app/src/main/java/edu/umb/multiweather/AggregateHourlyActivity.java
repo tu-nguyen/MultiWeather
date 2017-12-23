@@ -77,13 +77,11 @@ public class AggregateHourlyActivity extends AppCompatActivity {
         String formatted = format.format(date);
 
         hours[0] = formatted;
-        //test.setText(formatted + "\n");
 
         for (int i = 1; i < 12; i++) {
             Date newDate = date;
             newDate.setMinutes(date.getMinutes() + 60);
             hours[i] = format.format(newDate);
-            //test.append(hours[i] + "\n");
         }
 
         for (int i = 0; i < 12; i++) {

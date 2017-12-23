@@ -8,7 +8,6 @@ import android.widget.TextView;
 import java.text.DecimalFormat;
 
 import butterknife.ButterKnife;
-import model.Weather;
 
 public class CompareCurrentActivity extends AppCompatActivity {
     final String DEGREE  = "\u00b0";
@@ -56,11 +55,6 @@ public class CompareCurrentActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        Weather weather[] = new Weather[3];
-
-        //weather[0].currentCondition = (CurrentCondition) intent.getSerializableExtra(MainActivity.COMPARE_CURRENT);
-        //text1.setText("" + weather[0].currentCondition.getTemperature());
-
         double accuTemp = intent.getDoubleExtra("0temp", 0);
         double accuPop = intent.getDoubleExtra("0pop", 0);
         double accuWind = intent.getDoubleExtra("0wind", 0);
@@ -77,8 +71,6 @@ public class CompareCurrentActivity extends AppCompatActivity {
         double noaaPop = intent.getDoubleExtra("3pop", 0);
         double noaaWind = intent.getDoubleExtra("3wind", 0);
 
-        //modeText.setText("Aggregated Data:  Mean");
-        //locationText.setText(uPlace.getCity() + ", " + uPlace.getState());
         tempText0.setText(accuTemp + DEGREE + "F");
         popText0.setText(accuPop + "%");
         windText0.setText(accuWind + "mph");
