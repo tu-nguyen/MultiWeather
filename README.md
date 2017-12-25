@@ -6,8 +6,8 @@ short-term forecase from these sources. "Temp, chance of rain, and wind speed" C
 to mean, max and min. 
 
 ## Prerequisites 
-- Requires api keys from Google Location API in AndroidManifest.xml
-- Requires api keys from AccuWeather, Dark Sky, Weather Underground, and NOAA in java/Utils/Utils.java
+- Requires API keys from Google Location API in AndroidManifest.xml
+- Requires API keys from AccuWeather, Dark Sky, Weather Underground, and NOAA in java/Utils/Utils.java
 
 ## Features
 This app:
