@@ -35,7 +35,6 @@ import static data.Aggregator.getMax;
 import static data.Aggregator.getMean;
 import static data.Aggregator.getMin;
 
-
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
     public static final String AGGREGATED_HOURLY = "AGGREGATED_HOURLY";
@@ -170,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // Method of retrieving user's location
     public void getLocationDataGeo (double lat, double lon) throws ExecutionException, InterruptedException {
         LocationTaskGeo locationTask = new LocationTaskGeo();
         locationTask.execute(String.valueOf(lat), String.valueOf(lon)).get();
@@ -246,6 +246,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // User location data through weather APIs
     public void renderWeatherData (uPlace uPlace) throws ExecutionException, InterruptedException {
         WeatherTask weatherTask = new WeatherTask();
         weatherTask.execute(uPlace).get();
@@ -361,7 +362,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     @OnClick(R.id.hourlyAggregatedButton)
     public void startDailyActivity(View view){
         Intent intent = new Intent(this, AggregateHourlyActivity.class);
@@ -382,7 +382,6 @@ public class MainActivity extends AppCompatActivity {
         }
         startActivity(intent);
     }
-
 
     @OnClick(R.id.compareCurrentButton)
     public void startCompareCurrentActivity(View view){
