@@ -1,6 +1,6 @@
 # MultiWeather - An Android project for CS410
-MultiWeather is a weather app mainly focus for an individual who has interests in outdoor activities such as camping, 
-hiking, fishing etc. Said individual always need accurate and highly localized forecase to make an informed dicision
+MultiWeather is a weather app mainly focused for an individual who has interests in outdoor activities such as camping, 
+hiking, fishing etc. Said individual always need accurate and highly localized forecast to make an informed decision
 relating to their interest. Many different weather apps and services exist, and what this app does is collect relevant 
 short-term forecase from these sources. "Temp, chance of rain, and wind speed" Compute and show those data aggregated 
 to mean, max and min. 
@@ -18,8 +18,8 @@ This app:
 - Compare current forecast from
 
 There are a few features missing from the original proposed plan like comparing hourly side by side,
-and major issues like the code could be more organized for readibily plus the app does too much woke on the main thread
-but due to the short time given this was the best that could be done.
+and issues like the code could be more organized for readability plus the app does too much wake on the main thread
+but due to the short time frame, it came out much better than expected.
 
 Only tested on Nexus 5X (Android 7.1.1,API 25) and Google Pixel (8.1.0,API 27).
 
